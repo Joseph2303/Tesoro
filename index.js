@@ -8,7 +8,7 @@ const PORT = 3000;
 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json()); // Para recibir JSON en /certificado
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Helper: normalizar correo
@@ -85,9 +85,7 @@ app.post("/registrar", (req, res) => {
       if (row && row.jugo === 1) {
         return res
           .status(403)
-          .send(
-            "⛔ Ya completaste el juego y tu certificado fue emitido. No podés reiniciar."
-          );
+          .send("⛔ Ya completaste el juego y tu certificado fue emitido. No podés reiniciar.");
       }
 
       // Si ya existe pero NO ha jugado/emitido certificado, permitir continuar
@@ -95,15 +93,25 @@ app.post("/registrar", (req, res) => {
         return res.send("🔁 Ya estás registrado. Podés continuar el juego.");
       }
 
-      // Crear nuevo registro con jugo = 0 (no jugado)
-      db.run(
-        "INSERT INTO usuarios (nombre, correo, jugo) VALUES (?, ?, 0)",
-        [nombre, correo],
-        (err2) => {
-          if (err2) return res.status(500).send("Error al registrar");
-          res.send("✅ Registro exitoso. ¡Bienvenido!");
+      // Si NO existe el usuario, validar límite de certificados emitidos (jugo=1) antes de crear
+      db.get("SELECT COUNT(*) AS total FROM usuarios WHERE jugo = 1", (err2, countRow) => {
+        if (err2) return res.status(500).send("Error en la base de datos al verificar cupos");
+
+        if (countRow.total >= 4) {
+          // Nadie más se puede registrar cuando ya hay 4 certificados emitidos
+          return res.status(403).send("⛔ Cupo cerrado: ya se emitieron 4 certificados, no se aceptan más registros.");
         }
-      );
+
+        // Crear nuevo registro con jugo = 0 (no jugado)
+        db.run(
+          "INSERT INTO usuarios (nombre, correo, jugo) VALUES (?, ?, 0)",
+          [nombre, correo],
+          (err3) => {
+            if (err3) return res.status(500).send("Error al registrar");
+            res.send("✅ Registro exitoso. ¡Bienvenido!");
+          }
+        );
+      });
     }
   );
 });
