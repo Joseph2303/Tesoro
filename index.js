@@ -111,60 +111,66 @@ app.post("/registrar", (req, res) => {
 // Ruta para marcar certificado emitido (actualiza jugo=1)
 app.post("/certificado", (req, res) => {
   const correo = normalizarCorreo(req.body.correo);
-console.log("llega esto:")
+  console.log("llega esto:", correo);
+
   if (!/@est\.una\.ac\.cr$/.test(correo)) {
     return res.status(400).send("⚠️ Correo inválido.");
   }
-  console.log("llega esto: 1")
+
   db.get(
     "SELECT id, nombre, correo, jugo FROM usuarios WHERE correo = ?",
     [correo],
     (err, row) => {
       if (err) return res.status(500).send("Error en la base de datos");
-console.log("llega esto:2")
       if (!row) {
-        console.log("llega esto:" +row)
-        return res
-          .status(404)
-          .send("❓ No existe un registro con ese correo.");
+        return res.status(404).send("❓ No existe un registro con ese correo.");
       }
-console.log("llega esto:3")
+
       if (row.jugo === 1) {
         return res.send("🎓 El certificado ya había sido emitido anteriormente.");
       }
-console.log("llega esto:4")
-      db.run(
-        "UPDATE usuarios SET jugo = 1 WHERE correo = ?",
-        [correo],
-        function (err2) {
-          console.log("llega esto:"+ err2)
-          if (err2) return res.status(500).send("Error al actualizar certificado");
-          if (this.changes === 0) {
-            return res
-              .status(409)
-              .send("⚠️ No se actualizó ningún registro (verificá el correo).");
-          }
 
-          // Devolver el registro actualizado para verificación rápida
-          db.get(
-            "SELECT id, nombre, correo, jugo FROM usuarios WHERE correo = ?",
-            [correo],
-            (e3, rowAct) => {
-              if (e3)
-                return res
-                  .status(500)
-                  .send("Actualizado, pero no se pudo leer el registro.");
-              res.json({
-                mensaje: "🎉 Certificado emitido y bloqueo de reinicio activado.",
-                usuario: rowAct,
-              });
-            }
-          );
+      // 🔎 Ver cuántos ya tienen certificado emitido (jugo=1)
+      db.get("SELECT COUNT(*) as total FROM usuarios WHERE jugo = 1", (err2, countRow) => {
+        if (err2) return res.status(500).send("Error en la base de datos al contar certificados");
+
+        if (countRow.total >= 4) {
+          return res.status(403).send("⛔ El límite de 4 certificados ya fue alcanzado.");
         }
-      );
+
+        // ✅ Si todavía hay espacio, actualizar este usuario
+        db.run(
+          "UPDATE usuarios SET jugo = 1 WHERE correo = ?",
+          [correo],
+          function (err3) {
+            if (err3) return res.status(500).send("Error al actualizar certificado");
+            if (this.changes === 0) {
+              return res
+                .status(409)
+                .send("⚠️ No se actualizó ningún registro (verificá el correo).");
+            }
+
+            db.get(
+              "SELECT id, nombre, correo, jugo FROM usuarios WHERE correo = ?",
+              [correo],
+              (e3, rowAct) => {
+                if (e3)
+                  return res
+                    .status(500)
+                    .send("Actualizado, pero no se pudo leer el registro.");
+                res.json({
+                  mensaje: "🎉 Certificado emitido y bloqueo de reinicio activado.",
+                  usuario: rowAct,
+                });
+              }
+            );
+          }
+        );
+      });
     }
   );
 });
+
 
 // Ruta para consultar usuarios (opcional)
 app.get("/usuarios", (req, res) => {
