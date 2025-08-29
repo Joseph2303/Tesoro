@@ -870,7 +870,7 @@
 
     async function guardarJugador() {
       try {
-        const resp = await fetch("/api/guardar-usuario", {
+        const resp = await fetch("/api/registrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nombre: state.name, correo: state.email })
