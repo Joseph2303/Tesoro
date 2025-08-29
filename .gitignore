@@ -1,1 +1,38 @@
-node_modules
+# Node modules
+node_modules/
+
+# Entorno
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Base de datos SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos temporales o de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de producción opcionales
+dist/
+build/
+
+# Cache
+.cache/
+.vite/
+
+# Archivos del editor
+.vscode/
+.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
