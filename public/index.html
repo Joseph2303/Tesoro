@@ -851,53 +851,41 @@
       elStatus.textContent = '¡Completado!';
       shootConfetti();
       updateMapProgress(true);
+      guardarJugador();
     }
 
     // ===============================
     //  LÓGICA
     // ===============================
-    async function startGame() {
+    function startGame() {
       const inputName = (elName?.value || '').trim();
       const inputEmail = (elEmail?.value || '').trim().toLowerCase();
 
-      if (inputName.length < 2) {
-        showToast('Por favor escribí un nombre válido.');
-        elName.classList.add('invalid');
-        return;
-      }
-      if (!isValidUnaEmail(inputEmail)) {
-        showToast('Usá tu correo institucional terminado en @est.una.ac.cr');
-        elEmail.classList.add('invalid');
-        return;
-      }
+      if (inputName.length < 2) { showToast('Por favor escribí un nombre válido (mínimo 2 letras).'); elName?.classList.add('invalid'); elName?.focus(); return; }
+      if (!isValidUnaEmail(inputEmail)) { showToast('Usá tu correo institucional terminado en @est.una.ac.cr'); elEmail?.classList.add('invalid'); elEmail?.focus(); return; }
 
+      state.name = inputName; state.email = inputEmail; state.idx = 0; state.solved = 0; state.startAt = Date.now(); state.timeUp = false; state.timerOn = true; saveState();
+      renderGame();
+      startTimer();
+    }
+
+    async function guardarJugador() {
       try {
-        const resp = await fetch("/api/registrar", {
+        const resp = await fetch("/api/guardar-usuario", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nombre: inputName, correo: inputEmail })
+          body: JSON.stringify({ nombre: state.name, correo: state.email })
         });
         const data = await resp.json();
 
         if (!resp.ok) {
-          showToast(data.msg || "Error en el registro");
+          showToast(data.msg || "Error al guardar jugador");
           return;
         }
 
-        // Guardar en estado local y arrancar juego
-        state.name = inputName;
-        state.email = inputEmail;
-        state.idx = 0;
-        state.solved = 0;
-        state.startAt = Date.now();
-        state.timeUp = false;
-        state.timerOn = true;
-        saveState();
-        renderGame();
-        startTimer();
-        showToast("✅ Registro exitoso. ¡Bienvenido!");
+        showToast("✅ ¡Registro completado! Gracias por jugar.");
       } catch (err) {
-        showToast("Error de conexión con el servidor");
+        showToast("Error de conexión al guardar el jugador");
       }
     }
 
