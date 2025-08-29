@@ -851,7 +851,6 @@
       elStatus.textContent = '¡Completado!';
       shootConfetti();
       updateMapProgress(true);
-      guardarJugador();
     }
 
     // ===============================
@@ -901,7 +900,7 @@
         const ok = normalize(val).replace(/\s+/g, '') === normalize(expected);
         if (!ok) { bumpWrong(); showToast('❌ Código incorrecto. Revisá las letras que juntaste.'); return; }
         state.solved = Math.max(state.solved, state.idx + 1);
-        stopTimer(); saveState(); renderFinish();
+        stopTimer(); saveState(); renderFinish(); guardarJugador(); 
         return;
       }
 
@@ -917,7 +916,7 @@
 
     function bumpWrong() { elAnswer.classList.add('shake', 'invalid'); setTimeout(() => { elAnswer.classList.remove('shake'); }, 400); }
 
-    function next() { if (state.idx < HUNT.clues.length - 1) { state.idx++; saveState(); renderGame(); } else { stopTimer(); saveState(); renderFinish(); } }
+    function next() { if (state.idx < HUNT.clues.length - 1) { state.idx++; saveState(); renderGame(); } else { stopTimer(); saveState(); renderFinish(); guardarJugador(); } }
     function hint() { if (state.timeUp) { return; } const c = HUNT.clues[state.idx]; if (c.isFinal) { showToast('En la última pista, usá las letras reunidas.'); return; } if (!c.hint) { showToast('No hay pista de ayuda para esta pregunta.'); return; } qs('#hint-area').textContent = '💡 ' + c.hint; state.hintsUsed++; saveState(); qs('#pill-hints').textContent = state.hintsUsed; }
     function skip() { if (state.timeUp) { return; } state.solved = Math.max(state.solved, state.idx + 1); next(); }
 
