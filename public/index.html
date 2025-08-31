@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,497 +8,134 @@
     /* ===============================
        PALETA & BASE (tema tesoro)
        =============================== */
-    :root {
-      --bg: #f4e7c5;
-      /* pergamino claro */
-      --bg-ink: #e8d6ac;
-      /* sombras del pergamino */
-      --panel: #fff6d8;
-      /* cartas pergamino */
-      --ink: #2b2620;
-      /* tinta */
-      --muted: #7a6f60;
-      /* tinta tenue */
-      --accent: #c0392b;
-      /* rojo (UNA/seguro) */
-      --accent-2: #8e2118;
-      /* rojo profundo */
-      --gold: #caa645;
-      /* dorado mapa */
-      --bronze: #8c6b2f;
-      /* detalles */
-      --ok: #16a34a;
-      --warn: #f59e0b;
-      --err: #ef4444;
-      --shadow: rgba(0, 0, 0, .08);
+    :root{
+      --bg: #f4e7c5;            /* pergamino claro */
+      --bg-ink: #e8d6ac;        /* sombras del pergamino */
+      --panel: #fff6d8;         /* cartas pergamino */
+      --ink: #2b2620;           /* tinta */
+      --muted: #7a6f60;         /* tinta tenue */
+      --accent: #c0392b;        /* rojo (UNA/seguro) */
+      --accent-2:#8e2118;       /* rojo profundo */
+      --gold: #caa645;          /* dorado mapa */
+      --bronze:#8c6b2f;         /* detalles */
+      --ok:#16a34a; --warn:#f59e0b; --err:#ef4444;
+      --shadow: rgba(0,0,0,.08);
     }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      height: 100%
-    }
-
-    body {
-      margin: 0;
-      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
-      color: var(--ink);
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
+      color:var(--ink);
       background:
         /* manchas suaves */
-        radial-gradient(1200px 600px at -10% -10%, rgba(0, 0, 0, .05) 0%, transparent 60%),
-        radial-gradient(1200px 600px at 110% 0%, rgba(0, 0, 0, .04) 0%, transparent 60%),
+        radial-gradient(1200px 600px at -10% -10%, rgba(0,0,0,.05) 0%, transparent 60%),
+        radial-gradient(1200px 600px at 110% 0%, rgba(0,0,0,.04) 0%, transparent 60%),
         linear-gradient(180deg, var(--bg), var(--bg-ink) 45%, var(--bg) 100%);
-      min-height: 100%;
-      position: relative;
-      overflow-x: hidden;
+      min-height:100%;
+      position:relative;
+      overflow-x:hidden;
     }
-
     /* textura cuadriculada tipo mapa náutico */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .25;
+    body::before{
+      content:""; position:fixed; inset:0; pointer-events:none; opacity:.25;
       background-image:
-        linear-gradient(transparent 31px, rgba(0, 0, 0, .05) 32px),
-        linear-gradient(90deg, transparent 31px, rgba(0, 0, 0, .05) 32px);
-      background-size: 32px 32px, 32px 32px;
-      mix-blend-mode: multiply;
+        linear-gradient(transparent 31px, rgba(0,0,0,.05) 32px),
+        linear-gradient(90deg, transparent 31px, rgba(0,0,0,.05) 32px);
+      background-size:32px 32px, 32px 32px;
+      mix-blend-mode:multiply;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px
-    }
+    .container{max-width:1100px; margin:0 auto; padding:24px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin:12px 0 18px}
+    .title{display:flex; align-items:center; gap:10px; font-size:clamp(22px,3.2vw,36px); font-weight:900; letter-spacing:.3px}
+    .title .compass{width:34px; aspect-ratio:1; border-radius:999px; background:conic-gradient(from 0deg, var(--gold), #fffbe0, var(--gold)); box-shadow:0 4px 14px rgba(0,0,0,.12); display:grid; place-items:center; position:relative}
+    .title .needle{width:2px; height:16px; background:var(--accent); transform-origin:bottom center; transform:rotate(25deg); border-radius:2px}
+    .badge{padding:6px 10px; border:1px dashed var(--bronze); color:var(--muted); border-radius:999px; font-size:12px; background:#fff4c8}
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 12px 0 18px
-    }
+    .layout{display:grid; grid-template-columns: 1.1fr .9fr; gap:16px}
+    @media (max-width: 920px){ .layout{grid-template-columns:1fr;}}
 
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: clamp(22px, 3.2vw, 36px);
-      font-weight: 900;
-      letter-spacing: .3px
+    .card{background:var(--panel); border:2px solid #e1d2a7; border-radius:20px; box-shadow:0 18px 40px rgba(0,0,0,.12); position:relative}
+    .card::before{ /* borde quemado */
+      content:""; position:absolute; inset:-8px; border-radius:26px; pointer-events:none;
+      background: conic-gradient(from 180deg, rgba(0,0,0,.08), transparent 20% 80%, rgba(0,0,0,.08)); filter:blur(8px); opacity:.35
     }
+    .card .inner{padding:20px}
 
-    .title .compass {
-      width: 34px;
-      aspect-ratio: 1;
-      border-radius: 999px;
-      background: conic-gradient(from 0deg, var(--gold), #fffbe0, var(--gold));
-      box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
-      display: grid;
-      place-items: center;
-      position: relative
-    }
+    .muted{color:var(--muted)}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .row > *{flex:1}
+    .space{height:16px}
 
-    .title .needle {
-      width: 2px;
-      height: 16px;
-      background: var(--accent);
-      transform-origin: bottom center;
-      transform: rotate(25deg);
-      border-radius: 2px
-    }
+    button{cursor:pointer; border:0; border-radius:12px; padding:12px 16px; font-weight:800; color:#fff; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 10px 24px rgba(192,57,43,.3); transition:transform .08s ease}
+    button:active{transform:translateY(1px)}
+    button:disabled{opacity:.6; cursor:not-allowed}
+    .btn-ghost{background:transparent; color:var(--accent); border:2px solid var(--accent); box-shadow:none}
+    .btn-gold{background: linear-gradient(135deg, #e2c36e, #caa645); color:#1c160a}
 
-    .badge {
-      padding: 6px 10px;
-      border: 1px dashed var(--bronze);
-      color: var(--muted);
-      border-radius: 999px;
-      font-size: 12px;
-      background: #fff4c8
+    input[type="text"], input[type="email"], .input{
+      width:100%; padding:14px 16px; border-radius:12px; background:#fffdf1; border:1px solid #e1d2a7; color:var(--ink)
     }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px
-    }
-
-    @media (max-width: 920px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card {
-      background: var(--panel);
-      border: 2px solid #e1d2a7;
-      border-radius: 20px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, .12);
-      position: relative
-    }
-
-    .card::before {
-      /* borde quemado */
-      content: "";
-      position: absolute;
-      inset: -8px;
-      border-radius: 26px;
-      pointer-events: none;
-      background: conic-gradient(from 180deg, rgba(0, 0, 0, .08), transparent 20% 80%, rgba(0, 0, 0, .08));
-      filter: blur(8px);
-      opacity: .35
-    }
-
-    .card .inner {
-      padding: 20px
-    }
-
-    .muted {
-      color: var(--muted)
-    }
-
-    .row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap
-    }
-
-    .row>* {
-      flex: 1
-    }
-
-    .space {
-      height: 16px
-    }
-
-    button {
-      cursor: pointer;
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-weight: 800;
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 10px 24px rgba(192, 57, 43, .3);
-      transition: transform .08s ease
-    }
-
-    button:active {
-      transform: translateY(1px)
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: not-allowed
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--accent);
-      border: 2px solid var(--accent);
-      box-shadow: none
-    }
-
-    .btn-gold {
-      background: linear-gradient(135deg, #e2c36e, #caa645);
-      color: #1c160a
-    }
-
-    input[type="text"],
-    input[type="email"],
-    .input {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      background: #fffdf1;
-      border: 1px solid #e1d2a7;
-      color: var(--ink)
-    }
-
-    .invalid {
-      border-color: var(--err) !important;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, .15);
-    }
+    .invalid{border-color: var(--err) !important; box-shadow: 0 0 0 3px rgba(239,68,68,.15);} 
 
     /* PROGRESO */
-    .progress {
-      height: 12px;
-      background: #f2e6bf;
-      border: 1px solid #e1d2a7;
-      border-radius: 999px;
-      overflow: hidden
-    }
+    .progress{height:12px; background:#f2e6bf; border:1px solid #e1d2a7; border-radius:999px; overflow:hidden}
+    .bar{height:100%; width:0%; background:repeating-linear-gradient(90deg, var(--gold) 0 18px, #dfbe59 18px 36px); transition:width .45s cubic-bezier(.2,.9,.2,1)}
 
-    .bar {
-      height: 100%;
-      width: 0%;
-      background: repeating-linear-gradient(90deg, var(--gold) 0 18px, #dfbe59 18px 36px);
-      transition: width .45s cubic-bezier(.2, .9, .2, 1)
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #fff6d8;
-      border: 1px dashed #d8c795;
-      font-size: 12px
-    }
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:#fff6d8; border:1px dashed #d8c795; font-size:12px}
 
     /* TOAST */
-    .toast {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      transform: translateY(-20px);
-      opacity: 0;
-      transition: all .3s ease;
-      background: #fff8df;
-      border: 1px solid #e1d2a7;
-      color: var(--ink);
-      padding: 12px 14px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px var(--shadow);
-      z-index: 1000
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0)
-    }
+    .toast{position:fixed; top:16px; right:16px; transform:translateY(-20px); opacity:0; transition:all .3s ease; background:#fff8df; border:1px solid #e1d2a7; color:var(--ink); padding:12px 14px; border-radius:10px; box-shadow:0 8px 20px var(--shadow); z-index:1000}
+    .toast.show{opacity:1; transform:translateY(0)}
 
     /* CONFETTI (emoji) */
-    .confetti {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden
-    }
-
-    .confetti span {
-      position: absolute;
-      top: -20px;
-      font-size: 20px;
-      animation: fall 2.8s linear forwards
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 1
-      }
-    }
+    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden}
+    .confetti span{position:absolute; top:-20px; font-size:20px; animation:fall 2.8s linear forwards}
+    @keyframes fall{ to { transform:translateY(110vh) rotate(360deg); opacity:1 } }
 
     /* IMAGEN PISTA */
-    .clue-img {
-      width: 100%;
-      max-height: 260px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 1px solid #e1d2a7
-    }
+    .clue-img{width:100%; max-height:260px; object-fit:cover; border-radius:12px; border:1px solid #e1d2a7}
 
     /* PIE */
-    footer {
-      opacity: .8;
-      font-size: 12px;
-      margin: 24px 0
-    }
-
-    a {
-      color: var(--accent)
-    }
+    footer{opacity:.8; font-size:12px; margin:24px 0}
+    a{color:var(--accent)}
 
     /* ANIMACIONES útiles */
-    @keyframes shake {
-
-      10%,
-      90% {
-        transform: translateX(-1px)
-      }
-
-      20%,
-      80% {
-        transform: translateX(2px)
-      }
-
-      30%,
-      50%,
-      70% {
-        transform: translateX(-4px)
-      }
-
-      40%,
-      60% {
-        transform: translateX(4px)
-      }
-    }
-
-    .shake {
-      animation: shake .4s both
-    }
+    @keyframes shake{ 10%,90%{transform:translateX(-1px)} 20%,80%{transform:translateX(2px)} 30%,50%,70%{transform:translateX(-4px)} 40%,60%{transform:translateX(4px)} }
+    .shake{animation:shake .4s both}
 
     /* ===============================
        MAPA DEL TESORO (SVG interactivo)
        =============================== */
-    .map-card {
-      position: relative;
-      overflow: hidden
-    }
+    .map-card{position:relative; overflow:hidden}
+    .map-header{display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px dashed #d8c795; background:linear-gradient(180deg, #fff7d5, #fff0bd)}
+    .map-title{font-weight:900; letter-spacing:.4px}
+    .map-tools{display:flex; gap:8px}
+    .map-outer{position:relative; height:480px; background:#f4e6b6}
+    .map-viewport{width:100%; height:100%; transform-origin:0 0; touch-action:none}
 
-    .map-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      border-bottom: 1px dashed #d8c795;
-      background: linear-gradient(180deg, #fff7d5, #fff0bd)
-    }
+    .map-fullscreen{position:fixed; inset:24px; z-index:999;}
+    .map-fullscreen .map-outer{height:100%}
 
-    .map-title {
-      font-weight: 900;
-      letter-spacing: .4px
-    }
+    svg.treasure{width:100%; height:100%; display:block}
+    .sea{fill:#d7efe9}
+    .island{fill:#f7e6b1; stroke:#d4bb7b; stroke-width:2}
+    .shore{fill:none; stroke:#e4c97a; stroke-width:6; opacity:.6}
+    .route{fill:none; stroke:#b1120a; stroke-width:3; stroke-dasharray:10 8; stroke-linecap:round}
+    .route.cover{stroke:#fff0bd; stroke-width:4; stroke-dasharray:none; opacity:.7}
+    .marker{fill:#9a7a34; stroke:#3f2e12; stroke-width:1.5}
+    .marker.found{fill:#caa645; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+    .ship{fill:#2a2a2a}
+    .chest{fill:#8b5e2e; stroke:#3f2e12; stroke-width:1.5}
+    .xmark{stroke:#b1120a; stroke-width:3; stroke-linecap:round}
 
-    .map-tools {
-      display: flex;
-      gap: 8px
-    }
+    .legend{position:absolute; bottom:10px; right:10px; background:#fff7d5; border:1px dashed #d8c795; border-radius:12px; padding:8px 10px; font-size:12px; display:flex; gap:10px; align-items:center}
+    .legend .dot{width:10px; height:10px; border-radius:999px; background:#9a7a34; border:1px solid #3f2e12}
+    .legend .dot.f{background:#caa645}
 
-    .map-outer {
-      position: relative;
-      height: 480px;
-      background: #f4e6b6
-    }
-
-    .map-viewport {
-      width: 100%;
-      height: 100%;
-      transform-origin: 0 0;
-      touch-action: none
-    }
-
-    .map-fullscreen {
-      position: fixed;
-      inset: 24px;
-      z-index: 999;
-    }
-
-    .map-fullscreen .map-outer {
-      height: 100%
-    }
-
-    svg.treasure {
-      width: 100%;
-      height: 100%;
-      display: block
-    }
-
-    .sea {
-      fill: #d7efe9
-    }
-
-    .island {
-      fill: #f7e6b1;
-      stroke: #d4bb7b;
-      stroke-width: 2
-    }
-
-    .shore {
-      fill: none;
-      stroke: #e4c97a;
-      stroke-width: 6;
-      opacity: .6
-    }
-
-    .route {
-      fill: none;
-      stroke: #b1120a;
-      stroke-width: 3;
-      stroke-dasharray: 10 8;
-      stroke-linecap: round
-    }
-
-    .route.cover {
-      stroke: #fff0bd;
-      stroke-width: 4;
-      stroke-dasharray: none;
-      opacity: .7
-    }
-
-    .marker {
-      fill: #9a7a34;
-      stroke: #3f2e12;
-      stroke-width: 1.5
-    }
-
-    .marker.found {
-      fill: #caa645;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .2))
-    }
-
-    .ship {
-      fill: #2a2a2a
-    }
-
-    .chest {
-      fill: #8b5e2e;
-      stroke: #3f2e12;
-      stroke-width: 1.5
-    }
-
-    .xmark {
-      stroke: #b1120a;
-      stroke-width: 3;
-      stroke-linecap: round
-    }
-
-    .legend {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: #fff7d5;
-      border: 1px dashed #d8c795;
-      border-radius: 12px;
-      padding: 8px 10px;
-      font-size: 12px;
-      display: flex;
-      gap: 10px;
-      align-items: center
-    }
-
-    .legend .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: #9a7a34;
-      border: 1px solid #3f2e12
-    }
-
-    .legend .dot.f {
-      background: #caa645
-    }
-
-    .hint-pin {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: #fff6d8;
-      border: 1px dashed #d8c795;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 12px
-    }
+    .hint-pin{position:absolute; top:12px; left:12px; background:#fff6d8; border:1px dashed #d8c795; padding:6px 10px; border-radius:8px; font-size:12px}
   </style>
 </head>
-
 <body>
   <div class="container">
     <header>
@@ -525,32 +161,28 @@
           <div class="map-viewport" id="map-viewport">
             <svg class="treasure" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" aria-label="Mapa del tesoro">
               <!-- mar -->
-              <rect class="sea" x="0" y="0" width="900" height="540" />
+              <rect class="sea" x="0" y="0" width="900" height="540"/>
               <!-- islas -->
-              <path class="island"
-                d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z" />
-              <path class="island"
-                d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z" />
-              <path class="shore" d="M145,175 C205,90 360,85 415,185" />
-              <path class="shore" d="M525,335 C565,255 700,255 755,325" />
+              <path class="island" d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z"/>
+              <path class="island" d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z"/>
+              <path class="shore" d="M145,175 C205,90 360,85 415,185"/>
+              <path class="shore" d="M525,335 C565,255 700,255 755,325"/>
 
               <!-- ruta punteada (del 1 al 6) -->
-              <path id="route-path" class="route"
-                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420" />
+              <path id="route-path" class="route" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"/>
               <!-- cubre-progreso para simular avance sobre la ruta (pintamos encima) -->
-              <path id="route-cover" class="route cover"
-                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420" />
+              <path id="route-cover" class="route cover" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"/>
 
               <!-- marcadores por pista -->
-              <circle id="mark-1" class="marker" cx="120" cy="126" r="8" />
-              <circle id="mark-2" class="marker" cx="250" cy="250" r="8" />
-              <circle id="mark-3" class="marker" cx="360" cy="300" r="8" />
-              <circle id="mark-4" class="marker" cx="510" cy="210" r="8" />
-              <circle id="mark-5" class="marker" cx="660" cy="330" r="8" />
+              <circle id="mark-1" class="marker" cx="120" cy="126" r="8"/>
+              <circle id="mark-2" class="marker" cx="250" cy="250" r="8"/>
+              <circle id="mark-3" class="marker" cx="360" cy="300" r="8"/>
+              <circle id="mark-4" class="marker" cx="510" cy="210" r="8"/>
+              <circle id="mark-5" class="marker" cx="660" cy="330" r="8"/>
               <g id="mark-6">
-                <rect class="chest" x="762" y="405" width="28" height="18" rx="3" />
-                <line class="xmark" x1="760" y1="400" x2="790" y2="430" />
-                <line class="xmark" x1="790" y1="400" x2="760" y2="430" />
+                <rect class="chest" x="762" y="405" width="28" height="18" rx="3"/>
+                <line class="xmark" x1="760" y1="400" x2="790" y2="430"/>
+                <line class="xmark" x1="790" y1="400" x2="760" y2="430"/>
               </g>
 
               <!-- barquito que avanza -->
@@ -560,9 +192,9 @@
 
               <!-- rosa de los vientos decorativa -->
               <g transform="translate(840,60)">
-                <circle r="26" fill="#fff7d5" stroke="#d8c795" />
-                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645" />
-                <circle r="3" fill="#8c6b2f" />
+                <circle r="26" fill="#fff7d5" stroke="#d8c795"/>
+                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645"/>
+                <circle r="3" fill="#8c6b2f"/>
               </g>
             </svg>
           </div>
@@ -577,8 +209,7 @@
         <section id="screen-start" class="card">
           <div class="inner">
             <h2>¡Bienvenido/a!</h2>
-            <p class="muted">Jugá esta búsqueda del tesoro resolviendo cada pista en orden. Cada respuesta correcta te
-              revela una letra de la <strong>Clave del Tesoro</strong> y hace avanzar el barco en el mapa.</p>
+            <p class="muted">Jugá esta búsqueda del tesoro resolviendo cada pista en orden. Cada respuesta correcta te revela una letra de la <strong>Clave del Tesoro</strong> y hace avanzar el barco en el mapa.</p>
             <div class="space"></div>
             <div class="row">
               <div>
@@ -587,9 +218,14 @@
               </div>
               <div>
                 <label class="muted">Correo institucional (obligatorio)</label>
-                <input id="player-email" type="email" placeholder="usuario@est.una.ac.cr" inputmode="email"
-                  autocomplete="email" required pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$"
-                  title="Usá tu correo institucional que termine en @est.una.ac.cr" />
+                <input id="player-email"
+                       type="email"
+                       placeholder="usuario@est.una.ac.cr"
+                       inputmode="email"
+                       autocomplete="email"
+                       required
+                       pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$"
+                       title="Usá tu correo institucional que termine en @est.una.ac.cr" />
               </div>
             </div>
 
@@ -620,9 +256,7 @@
           <div class="inner">
             <div class="row" style="align-items:center">
               <div style="flex:1">
-                <div class="progress">
-                  <div class="bar" id="progress-bar"></div>
-                </div>
+                <div class="progress"><div class="bar" id="progress-bar"></div></div>
               </div>
               <div class="pill"><span id="timer">10:00</span> ⏱️</div>
               <div class="pill">Pistas: <span id="pill-index">1</span>/<span id="pill-total">1</span></div>
@@ -637,7 +271,7 @@
 
             <div class="space"></div>
             <form id="answer-form" class="row" autocomplete="off">
-              <input id="answer" type="text" placeholder="Escribí tu respuesta" aria-label="Respuesta" />
+              <input id="answer" type="text" placeholder="Escribí tu respuesta" aria-label="Respuesta"/>
               <button id="submit">Comprobar</button>
               <button class="btn-ghost" id="btn-hint" type="button">Pedir pista</button>
             </form>
@@ -676,380 +310,514 @@
   <div id="confetti" class="confetti" aria-hidden="true"></div>
 
   <script>
-    // ===============================
-    //  CONFIGURACIÓN / PLANTILLA
-    // ===============================
-    const HUNT = {
-      title: "Búsqueda del Tesoro – Guanacaste",
-      clues: [
-        {
-          id: 1,
-          title: "Pista 1 – Sombrero del sabanero",
-          text: "Soy de paja o tela, me ves en las montaderas y bajo el sol guanacasteco. ¿Qué soy?",
-          answer: ["chonete", "sombrero", "sombrero chonete"],
-          hint: "Sombrero típico del sabanero.",
-          token: "S",
-          postSolve: "Letra de la clave: S",
-          image: ""
-        },
-        {
-          id: 2,
-          title: "Pista 2 – Música de la pampa",
-          text: "Mis tablillas cantan con bolillos; soy el sonido de las fiestas guanacastecas. ¿Qué instrumento soy?",
-          answer: ["marimba"],
-          hint: "Instrumento de madera que suena con mazas.",
-          token: "A",
-          postSolve: "Letra de la clave: A",
-          image: ""
-        },
-        {
-          id: 3,
-          title: "Pista 3 – Enlazar reses",
-          text: "Soy de fibra o cuero y formo el lazo del sabanero. ¿Qué objeto soy?",
-          answer: ["soga", "lazo", "reata"],
-          hint: "Se usa para enlazar.",
-          token: "B",
-          postSolve: "Letra de la clave: B",
-          image: ""
-        },
-        {
-          id: 4,
-          title: "Pista 4 – Montar con firmeza",
-          text: "Voy sobre el lomo del caballo para cabalgar cómodo. ¿Qué soy?",
-          answer: ["montura", "silla de montar", "silla"],
-          hint: "Se asegura con la cincha.",
-          token: "A",
-          postSolve: "Letra de la clave: A",
-          image: ""
-        },
-        {
-          id: 5,
-          title: "Pista 5 – Verso corto y picaresco",
-          text: "Se dice en una sola tirada; rima breve que alegra la fiesta. ¿Cómo me llamo?",
-          answer: ["bomba", "bomba guanacasteca"],
-          hint: "Muy típica en las fiestas de la Anexión.",
-          token: "N",
-          postSolve: "Letra de la clave: N",
-          image: ""
-        },
-        {
-          id: 6,
-          title: "Pista final – Código del Tesoro",
-          text: "Con las letras que juntaste formás la palabra secreta (5 letras). Escribila aquí para abrir el cofre.",
-          isFinal: true,
-          image: ""
-        }
-      ]
-    };
-
-    // ===============================
-    //  ESTADO Y UTILIDADES
-    // ===============================
-    const qs = s => document.querySelector(s);
-    const STORAGE_KEY = 'treasure_hunt_state_v2'; // bump de versión por nuevo UI
-    const LIMIT_MS = 10 * 60 * 1000; // 10 minutos
-
-    const state = {
-      name: '', email: '', idx: 0, solved: 0, hintsUsed: 0,
-      timerOn: false, startAt: null, elapsedMs: 0, timeUp: false
-    };
-
-    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    function loadState() { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return false; try { Object.assign(state, JSON.parse(raw)); return true; } catch { return false; } }
-    function resetState() { Object.assign(state, { name: '', email: '', idx: 0, solved: 0, hintsUsed: 0, timerOn: false, startAt: null, elapsedMs: 0, timeUp: false }); saveState(); }
-
-    function normalize(str) { return (str || '').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' '); }
-    function matchesAnswer(user, answers) { const u = normalize(user); const arr = Array.isArray(answers) ? answers : [answers]; return arr.some(a => normalize(a) === u); }
-    function fmtTime(ms) { const total = Math.floor(ms / 1000); const m = String(Math.floor(total / 60)).padStart(2, '0'); const s = String(total % 60).padStart(2, '0'); return `${m}:${s}`; }
-    function isValidUnaEmail(email) { return /^[a-z0-9._%+-]+@est\.una\.ac\.cr$/i.test((email || '').trim()); }
-
-    function expectedCode() { return HUNT.clues.filter(c => c.token).map(c => (c.token || '').toString().trim().toUpperCase()).join(''); }
-    function revealedCodeSlots() { const slots = []; let solvedIndex = state.solved; for (const c of HUNT.clues) { if (!c.token) continue; if (--solvedIndex >= 0) { slots.push((c.token || '').toUpperCase()); } else { slots.push('_'); } } return slots.join(' '); }
-
-    // ===============================
-    //  UI NODOS
-    // ===============================
-    const elStart = qs('#screen-start');
-    const elGame = qs('#screen-game');
-    const elFinish = qs('#screen-finish');
-    const elName = qs('#player-name');
-    const elEmail = qs('#player-email');
-    const elTimer = qs('#timer');
-    const elToggleTimer = qs('#toggle-timer');
-    const elProgress = qs('#progress-bar');
-    const elIndex = qs('#pill-index');
-    const elTotal = qs('#pill-total');
-    const elHints = qs('#pill-hints');
-    const elClueTitle = qs('#clue-title');
-    const elClueText = qs('#clue-text');
-    const elClueImg = qs('#clue-image');
-    const elAnswer = qs('#answer');
-    const elHintArea = qs('#hint-area');
-    const elStatus = qs('#status-pill');
-    const elSlots = qs('#final-code-slots');
-    const toast = qs('#toast');
-    const confetti = qs('#confetti');
-
-    // MAPA
-    const mapCard = qs('#map-card');
-    const mapViewport = qs('#map-viewport');
-    const routePath = document.getElementById('route-path');
-    const routeCover = document.getElementById('route-cover');
-    const ship = document.getElementById('ship');
-
-    let timerInterval = null;
-
-    // ===============================
-    //  RENDER
-    // ===============================
-    function renderStart() {
-      elStart.hidden = false; elGame.hidden = true; elFinish.hidden = false; // finish escondido por defecto
-      elFinish.hidden = true;
-      elName.value = state.name || '';
-      elEmail.value = state.email || '';
-      elToggleTimer.textContent = 'Tiempo límite: 10:00'; elToggleTimer.disabled = true;
-      qs('#pill-total').textContent = HUNT.clues.length;
-      updateMapProgress();
+// ===============================
+//  CONFIGURACIÓN / PLANTILLA
+// ===============================
+const HUNT = {
+  title: "Búsqueda del Tesoro – Guanacaste",
+  clues: [
+    { id: 1,
+      title: "Pista 1 – Sombrero del sabanero",
+      text: "Soy de paja o tela, me ves en las montaderas y bajo el sol guanacasteco. ¿Qué soy?",
+      answer: ["chonete", "sombrero", "sombrero chonete"],
+      hint: "Sombrero típico del sabanero.",
+      token: "S",
+      postSolve: "Letra de la clave: S",
+      image: ""
+    },
+    { id: 2,
+      title: "Pista 2 – Música de la pampa",
+      text: "Mis tablillas cantan con bolillos; soy el sonido de las fiestas guanacastecas. ¿Qué instrumento soy?",
+      answer: ["marimba"],
+      hint: "Instrumento de madera que suena con mazas.",
+      token: "A",
+      postSolve: "Letra de la clave: A",
+      image: ""
+    },
+    { id: 3,
+      title: "Pista 3 – Enlazar reses",
+      text: "Soy de fibra o cuero y formo el lazo del sabanero. ¿Qué objeto soy?",
+      answer: ["soga", "lazo", "reata"],
+      hint: "Se usa para enlazar.",
+      token: "B",
+      postSolve: "Letra de la clave: B",
+      image: ""
+    },
+    { id: 4,
+      title: "Pista 4 – Montar con firmeza",
+      text: "Voy sobre el lomo del caballo para cabalgar cómodo. ¿Qué soy?",
+      answer: ["montura", "silla de montar", "silla"],
+      hint: "Se asegura con la cincha.",
+      token: "A",
+      postSolve: "Letra de la clave: A",
+      image: ""
+    },
+    { id: 5,
+      title: "Pista 5 – Verso corto y picaresco",
+      text: "Se dice en una sola tirada; rima breve que alegra la fiesta. ¿Cómo me llamo?",
+      answer: ["bomba", "bomba guanacasteca"],
+      hint: "Muy típica en las fiestas de la Anexión.",
+      token: "N",
+      postSolve: "Letra de la clave: N",
+      image: ""
+    },
+    { id: 6,
+      title: "Pista final – Código del Tesoro",
+      text: "Con las letras que juntaste formás la palabra secreta (5 letras). Escribila aquí para abrir el cofre.",
+      isFinal: true,
+      image: ""
     }
-    function renderGame() {
-      elStart.hidden = true; elGame.hidden = false; elFinish.hidden = true;
-      elTotal.textContent = HUNT.clues.length;
-      elHints.textContent = state.hintsUsed;
-      const i = Math.min(state.idx, HUNT.clues.length - 1);
-      const c = HUNT.clues[i];
+  ]
+};
 
-      elIndex.textContent = i + 1;
-      elClueTitle.textContent = c.title || `Pista ${i + 1}`;
-      elClueText.textContent = c.text || '';
+// ===============================
+//  ESTADO Y UTILIDADES
+// ===============================
+const qs = s => document.querySelector(s);
+const STORAGE_KEY = 'treasure_hunt_state_v2'; // bump de versión por nuevo UI
+const LIMIT_MS = 10 * 60 * 1000; // 10 minutos
 
-      if (c.image) { elClueImg.src = c.image; elClueImg.hidden = false; }
-      else { elClueImg.hidden = true; }
+const state = {
+  name: '', email: '', idx: 0, solved: 0, hintsUsed: 0,
+  timerOn: false, startAt: null, elapsedMs: 0, timeUp: false
+};
 
-      elAnswer.placeholder = c.isFinal ? "Escribí el CÓDIGO del Tesoro (sin espacios)" : "Escribí tu respuesta";
-      elAnswer.value = '';
-      elHintArea.textContent = '';
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function loadState(){ const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return false; try{ Object.assign(state, JSON.parse(raw)); return true; }catch{ return false; } }
+function resetState(){ Object.assign(state, {name:'', email:'', idx:0, solved:0, hintsUsed:0, timerOn:false, startAt:null, elapsedMs:0, timeUp:false}); saveState(); }
 
-      const pct = Math.round((state.solved / HUNT.clues.length) * 100);
-      elProgress.style.width = pct + '%';
+function normalize(str){ return (str||'').toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' '); }
+function matchesAnswer(user, answers){ const u = normalize(user); const arr = Array.isArray(answers)? answers : [answers]; return arr.some(a => normalize(a) === u); }
+function fmtTime(ms){ const total = Math.floor(ms/1000); const m = String(Math.floor(total/60)).padStart(2,'0'); const s = String(total%60).padStart(2,'0'); return `${m}:${s}`; }
+function isValidUnaEmail(email){ return /^[a-z0-9._%+-]+@est\.una\.ac\.cr$/i.test((email||'').trim()); }
 
-      elStatus.textContent = state.name ? state.name : 'En juego';
-      elSlots.textContent = revealedCodeSlots();
+function expectedCode(){ return HUNT.clues.filter(c => c.token).map(c => (c.token||'').toString().trim().toUpperCase()).join(''); }
+function revealedCodeSlots(){ const slots=[]; let solvedIndex = state.solved; for(const c of HUNT.clues){ if(!c.token) continue; if(--solvedIndex >= 0){ slots.push((c.token||'').toUpperCase()); } else { slots.push('_'); } } return slots.join(' '); }
 
-      const rem = state.startAt ? Math.max(0, LIMIT_MS - (Date.now() - state.startAt)) : LIMIT_MS;
-      elTimer.textContent = fmtTime(rem);
+// ===============================
+//  PERSISTENCIA DE CORREO
+// ===============================
+const CORREO_KEY = 'correoUNA';
 
-      const lock = !!state.timeUp;
-      elAnswer.disabled = lock; qs('#submit').disabled = lock; qs('#btn-hint').disabled = lock; qs('#btn-skip').disabled = lock;
-      if (lock) { elHintArea.textContent = '⏰ Se acabó el tiempo. Presioná Reiniciar para intentarlo de nuevo.'; elTimer.textContent = '00:00'; }
+function cacheCorreo(correo){
+  const v = (correo||'').trim().toLowerCase();
+  if(!v) return;
+  try{ localStorage.setItem(CORREO_KEY, v); }catch{}
+  try{ document.cookie = `correoUNA=${encodeURIComponent(v)}; path=/; max-age=${60*60*24*30}`; }catch{}
+  state.email = v;
+  saveState();
+}
 
-      updateMapProgress();
-    }
-    function renderFinish() {
-      elStart.hidden = true; elGame.hidden = true; elFinish.hidden = false;
-      const totalMs = state.startAt ? (Date.now() - state.startAt) : state.elapsedMs;
-      qs('#finish-msg').textContent = `${state.name || 'Equipo'} completó la búsqueda en ${fmtTime(totalMs)} con ${state.hintsUsed} pista(s) de ayuda.`;
-      elStatus.textContent = '¡Completado!';
-      shootConfetti();
-      updateMapProgress(true);
-    }
+function readCorreoPersistido(){
+  const fromState = (state.email||'').trim().toLowerCase();
+  const fromLS = (localStorage.getItem(CORREO_KEY)||'').trim().toLowerCase();
+  const fromQS = (new URLSearchParams(location.search).get('correo')||'').trim().toLowerCase();
+  let fromCookie = '';
+  try{
+    const ck = document.cookie.split(';').map(s=>s.trim()).find(s=>s.startsWith('correoUNA='));
+    if(ck) fromCookie = decodeURIComponent(ck.split('=').slice(1).join('='));
+  }catch{}
+  const candidatos = [fromState, fromLS, fromQS, fromCookie].filter(Boolean);
+  for(const c of candidatos){ if(isValidUnaEmail(c)) return c; }
+  return candidatos[0] || '';
+}
 
-    // ===============================
-    //  LÓGICA
-    // ===============================
-    function startGame() {
-      const inputName = (elName?.value || '').trim();
-      const inputEmail = (elEmail?.value || '').trim().toLowerCase();
+function getCorreo(){
+  // 1) estado
+  const a = (state.email||'').trim().toLowerCase();
+  if(isValidUnaEmail(a)) return a;
+  // 2) input visible
+  const b = (document.querySelector('#player-email')?.value||'').trim().toLowerCase();
+  if(isValidUnaEmail(b)) return b;
+  // 3) persistidos
+  const c = readCorreoPersistido();
+  if(isValidUnaEmail(c)) return c;
+  return '';
+}
 
-      if (inputName.length < 2) { showToast('Por favor escribí un nombre válido (mínimo 2 letras).'); elName?.classList.add('invalid'); elName?.focus(); return; }
-      if (!isValidUnaEmail(inputEmail)) { showToast('Usá tu correo institucional terminado en @est.una.ac.cr'); elEmail?.classList.add('invalid'); elEmail?.focus(); return; }
+// ===============================
+//  UI NODOS
+// ===============================
+const elStart = qs('#screen-start');
+const elGame = qs('#screen-game');
+const elFinish = qs('#screen-finish');
+const elName = qs('#player-name');
+const elEmail = qs('#player-email');
+const elTimer = qs('#timer');
+const elToggleTimer = qs('#toggle-timer');
+const elProgress = qs('#progress-bar');
+const elIndex = qs('#pill-index');
+const elTotal = qs('#pill-total');
+const elHints = qs('#pill-hints');
+const elClueTitle = qs('#clue-title');
+const elClueText = qs('#clue-text');
+const elClueImg = qs('#clue-image');
+const elAnswer = qs('#answer');
+const elHintArea = qs('#hint-area');
+const elStatus = qs('#status-pill');
+const elSlots = qs('#final-code-slots');
+const toast = qs('#toast');
+const confetti = qs('#confetti');
 
-      state.name = inputName; state.email = inputEmail; state.idx = 0; state.solved = 0; state.startAt = Date.now(); state.timeUp = false; state.timerOn = true; saveState();
-      renderGame();
-      startTimer();
-    }
+// MAPA
+const mapCard = qs('#map-card');
+const mapViewport = qs('#map-viewport');
+const routePath = document.getElementById('route-path');
+const routeCover = document.getElementById('route-cover');
+const ship = document.getElementById('ship');
 
-    async function guardarJugador() {
-      try {
-        const resp = await fetch("/api/registrar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nombre: state.name, correo: state.email })
-        });
-        const data = await resp.json();
+let timerInterval = null;
 
-        if (!resp.ok) {
-          showToast(data.msg || "Error al guardar jugador");
-          return;
-        }
+// ===============================
+//  RENDER
+// ===============================
+function renderStart(){
+  elStart.hidden = false; elGame.hidden = true; elFinish.hidden = true;
 
-        showToast("✅ ¡Registro completado! Gracias por jugar.");
-      } catch (err) {
-        showToast("Error de conexión al guardar el jugador");
-      }
-    }
+  // Precargar correo desde persistencia si el estado no lo tiene
+  if(!state.email){
+    const c = readCorreoPersistido();
+    if(isValidUnaEmail(c)){ state.email = c; saveState(); }
+  }
 
+  elName.value = state.name || '';
+  elEmail.value = state.email || '';
 
-    function check() {
-      if (state.timeUp) { return; }
-      const current = HUNT.clues[state.idx];
-      const val = qs('#answer').value;
-      if (!val) { return showToast('Escribí una respuesta.'); }
+  elToggleTimer.textContent = 'Tiempo límite: 10:00'; elToggleTimer.disabled = true;
+  qs('#pill-total').textContent = HUNT.clues.length;
+  updateMapProgress();
+}
+function renderGame(){
+  elStart.hidden = true; elGame.hidden = false; elFinish.hidden = true;
+  elTotal.textContent = HUNT.clues.length;
+  elHints.textContent = state.hintsUsed;
+  const i = Math.min(state.idx, HUNT.clues.length-1);
+  const c = HUNT.clues[i];
 
-      if (current.isFinal) {
-        const expected = expectedCode();
-        const ok = normalize(val).replace(/\s+/g, '') === normalize(expected);
-        if (!ok) { bumpWrong(); showToast('❌ Código incorrecto. Revisá las letras que juntaste.'); return; }
-        state.solved = Math.max(state.solved, state.idx + 1);
-        stopTimer(); saveState(); renderFinish(); guardarJugador(); 
-        return;
-      }
+  elIndex.textContent = i+1;
+  elClueTitle.textContent = c.title || `Pista ${i+1}`;
+  elClueText.textContent = c.text || '';
 
-      const ok = matchesAnswer(val, current.answer);
-      if (!ok) { bumpWrong(); showToast('❌ Respuesta incorrecta. ¡Intentalo de nuevo!'); return; }
+  if(c.image){ elClueImg.src = c.image; elClueImg.hidden = false; }
+  else { elClueImg.hidden = true; }
 
-      state.solved = Math.max(state.solved, state.idx + 1); saveState();
-      if (current.token) { elHintArea.textContent = '🔐 ' + (current.postSolve || `Letra de la clave: ${(current.token || '').toUpperCase()}`); showToast(`✅ ¡Correcto! Letra agregada: ${(current.token || '').toUpperCase()}`); }
-      else { showToast('✅ ¡Correcto! Avanzando…'); }
+  elAnswer.placeholder = c.isFinal ? "Escribí el CÓDIGO del Tesoro (sin espacios)" : "Escribí tu respuesta";
+  elAnswer.value = '';
+  elHintArea.textContent = '';
 
-      next();
-    }
+  const pct = Math.round((state.solved / HUNT.clues.length) * 100);
+  elProgress.style.width = pct + '%';
 
-    function bumpWrong() { elAnswer.classList.add('shake', 'invalid'); setTimeout(() => { elAnswer.classList.remove('shake'); }, 400); }
+  elStatus.textContent = state.name ? state.name : 'En juego';
+  elSlots.textContent = revealedCodeSlots();
 
-    function next() { if (state.idx < HUNT.clues.length - 1) { state.idx++; saveState(); renderGame(); } else { stopTimer(); saveState(); renderFinish(); guardarJugador(); } }
-    function hint() { if (state.timeUp) { return; } const c = HUNT.clues[state.idx]; if (c.isFinal) { showToast('En la última pista, usá las letras reunidas.'); return; } if (!c.hint) { showToast('No hay pista de ayuda para esta pregunta.'); return; } qs('#hint-area').textContent = '💡 ' + c.hint; state.hintsUsed++; saveState(); qs('#pill-hints').textContent = state.hintsUsed; }
-    function skip() { if (state.timeUp) { return; } state.solved = Math.max(state.solved, state.idx + 1); next(); }
+  const rem = state.startAt ? Math.max(0, LIMIT_MS - (Date.now() - state.startAt)) : LIMIT_MS;
+  elTimer.textContent = fmtTime(rem);
 
-    function startTimer() { stopTimer(); const tick = () => { if (!state.startAt) { state.startAt = Date.now(); saveState(); } const elapsed = Date.now() - state.startAt; const remaining = Math.max(0, LIMIT_MS - elapsed); qs('#timer').textContent = fmtTime(remaining); if (remaining <= 0 && !state.timeUp) { timeUp(); } }; tick(); timerInterval = setInterval(tick, 250); }
-    function stopTimer() { clearInterval(timerInterval); timerInterval = null; }
-    function timeUp() { stopTimer(); state.timeUp = true; saveState(); qs('#timer').textContent = '00:00'; showToast('⏰ Tiempo agotado'); qs('#answer').disabled = true; qs('#submit').disabled = true; qs('#btn-hint').disabled = true; qs('#btn-skip').disabled = true; qs('#hint-area').textContent = '⏰ Se acabó el tiempo. Presioná Reiniciar para intentarlo de nuevo.'; qs('#status-pill').textContent = 'Tiempo agotado'; }
+  const lock = !!state.timeUp;
+  elAnswer.disabled = lock; qs('#submit').disabled = lock; qs('#btn-hint').disabled = lock; qs('#btn-skip').disabled = lock;
+  if(lock){ elHintArea.textContent = '⏰ Se acabó el tiempo. Presioná Reiniciar para intentarlo de nuevo.'; elTimer.textContent='00:00'; }
 
-    function exportProgress() { const payload = { name: state.name, email: state.email, solved: state.solved, total: HUNT.clues.length, hintsUsed: state.hintsUsed, timeSeconds: Math.floor((Date.now() - (state.startAt || Date.now())) / 1000) }; const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'progreso_tesoro.json'; a.click(); URL.revokeObjectURL(url); }
+  updateMapProgress();
+}
+function renderFinish(){
+  elStart.hidden = true; elGame.hidden = true; elFinish.hidden = false;
+  const totalMs = state.startAt ? (Date.now() - state.startAt) : state.elapsedMs;
+  qs('#finish-msg').textContent = `${state.name || 'Equipo'} completó la búsqueda en ${fmtTime(totalMs)} con ${state.hintsUsed} pista(s) de ayuda.`;
+  elStatus.textContent = '¡Completado!';
+  shootConfetti();
+  updateMapProgress(true);
+}
 
-    function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
+// ===============================
+//  LÓGICA
+// ===============================
+async function startGame(){
+  const inputName = (elName?.value || '').trim();
+  const inputEmail = (elEmail?.value || '').trim().toLowerCase();
 
-    function shootConfetti() { confetti.innerHTML = ''; const icons = ['🎉', '✨', '🎈', '🪙', '⭐', '💎', '🏆']; for (let i = 0; i < 100; i++) { const span = document.createElement('span'); span.textContent = icons[Math.floor(Math.random() * icons.length)]; span.style.left = Math.random() * 100 + 'vw'; span.style.animationDelay = (Math.random() * 1.5) + 's'; confetti.appendChild(span); } setTimeout(() => confetti.innerHTML = '', 3500); }
+  if(inputName.length < 2){
+    showToast('Por favor escribí un nombre válido (mínimo 2 letras).');
+    elName?.classList.add('invalid');
+    elName?.focus();
+    return;
+  }
+  if(!isValidUnaEmail(inputEmail)){
+    showToast('Usá tu correo institucional terminado en @est.una.ac.cr');
+    elEmail?.classList.add('invalid');
+    elEmail?.focus();
+    return;
+  }
 
-    // Certificado PNG bonito en canvas
-    function downloadCertificate() {
-      const name = state.name || 'Equipo';
-      const totalMs = state.startAt ? (Date.now() - state.startAt) : state.elapsedMs;
-      const timeTxt = fmtTime(totalMs);
+  // Persistimos el correo apenas inicia (para que perdure si recargan antes del certificado)
+  cacheCorreo(inputEmail);
 
-      const c = document.createElement('canvas'); c.width = 1400; c.height = 900; const ctx = c.getContext('2d');
-      // fondo pergamino
-      const grad = ctx.createLinearGradient(0, 0, 0, 900); grad.addColorStop(0, '#fff3c8'); grad.addColorStop(1, '#e8d6ac'); ctx.fillStyle = grad; ctx.fillRect(0, 0, c.width, c.height);
-      // borde
-      ctx.strokeStyle = '#caa645'; ctx.lineWidth = 12; ctx.strokeRect(40, 40, c.width - 80, c.height - 80);
-      // título
-      ctx.fillStyle = '#2b2620'; ctx.font = 'bold 70px system-ui'; ctx.fillText('Certificado de Exploración', 120, 180);
-      // contenido
-      ctx.font = '32px system-ui'; ctx.fillStyle = '#3b332a';
-      const lines = [
-        `Se certifica que`,
-        `${name}`,
-        `completó la Búsqueda del Tesoro – Guanacaste`,
-        `Tiempo: ${timeTxt}  •  Ayudas usadas: ${state.hintsUsed}`
-      ];
-      ctx.font = 'bold 56px system-ui'; ctx.fillText(lines[1], 120, 340);
-      ctx.font = '32px system-ui'; ctx.fillText(lines[0], 120, 290);
-      ctx.fillText(lines[2], 120, 400);
-      ctx.fillText(lines[3], 120, 450);
-
-      // sello
-      ctx.beginPath(); ctx.arc(1180, 720, 90, 0, Math.PI * 2); ctx.fillStyle = '#c0392b'; ctx.fill();
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 6; ctx.stroke();
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 28px system-ui'; ctx.fillText('TESORO', 1126, 710); ctx.fillText('ENCONTRADO', 1080, 745);
-
-      const url = c.toDataURL('image/png');
-      const a = document.createElement('a'); a.href = url; a.download = 'certificado_tesoro.png'; a.click();
-    }
-
-    // ===============================
-    //  MAPA: progreso y controles
-    // ===============================
-    function tokenCount() { return HUNT.clues.filter(c => c.token).length; }
-    function solvedTokens() { return Math.min(state.solved, tokenCount()); }
-
-    function updateMapProgress(finished = false) {
-      const totalTok = tokenCount();
-      const solvedTok = solvedTokens();
-
-      // Encender marcadores resueltos
-      for (let i = 1; i <= 6; i++) {
-        const m = document.getElementById('mark-' + i) || document.getElementById('mark-' + i)?.querySelector?.('rect');
-        const group = document.getElementById('mark-' + i);
-        if (!m && !group) continue;
-        const isFound = i <= Math.min(state.solved, 6);
-        const el = document.getElementById('mark-' + i);
-        if (el) { el.classList.toggle('found', isFound); }
-      }
-
-      // Progreso sobre la ruta: descubrimos parte de la línea superior "cover" para simular avance
-      if (routePath && routeCover) {
-        const totalLen = routePath.getTotalLength();
-        const progress = (finished ? 1 : (state.solved / HUNT.clues.length));
-        const showLen = totalLen * progress;
-        routeCover.style.strokeDasharray = `${showLen} ${Math.max(0, totalLen - showLen)}`;
-        routeCover.style.strokeDashoffset = 0;
-
-        // mover barquito
-        const point = routePath.getPointAtLength(Math.max(0, Math.min(totalLen, showLen)));
-        ship.setAttribute('transform', `translate(${point.x},${point.y}) rotate(${progress * 20})`);
-      }
-    }
-
-    // Pan & zoom muy simple
-    let currentScale = 1, minScale = .9, maxScale = 2.2; let isPanning = false, last = { x: 0, y: 0 }; let offset = { x: 0, y: 0 };
-    function applyTransform() { mapViewport.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${currentScale})`; }
-    function zoomAt(factor, cx = 0, cy = 0) { const prev = currentScale; currentScale = Math.min(maxScale, Math.max(minScale, currentScale * factor)); const k = currentScale / prev - 1; offset.x -= (cx - offset.x) * k; offset.y -= (cy - offset.y) * k; applyTransform(); }
-
-    mapViewport.addEventListener('wheel', (e) => { e.preventDefault(); const rect = mapViewport.getBoundingClientRect(); zoomAt(e.deltaY < 0 ? 1.1 : 0.9, e.clientX - rect.left, e.clientY - rect.top); }, { passive: false });
-    mapViewport.addEventListener('mousedown', (e) => { isPanning = true; last.x = e.clientX; last.y = e.clientY; });
-    window.addEventListener('mousemove', (e) => { if (!isPanning) return; offset.x += e.clientX - last.x; offset.y += e.clientY - last.y; last.x = e.clientX; last.y = e.clientY; applyTransform(); });
-    window.addEventListener('mouseup', () => { isPanning = false; });
-
-    qs('#btn-map-zoom-in').addEventListener('click', () => zoomAt(1.15, 450, 270));
-    qs('#btn-map-zoom-out').addEventListener('click', () => zoomAt(0.85, 450, 270));
-    qs('#btn-map-full').addEventListener('click', () => { mapCard.classList.toggle('map-fullscreen'); applyTransform(); });
-
-    // ===============================
-    //  EVENTOS
-    // ===============================
-    qs('#start').addEventListener('click', startGame);
-    qs('#submit').addEventListener('click', (e) => { e.preventDefault(); check(); });
-    qs('#answer-form').addEventListener('submit', (e) => { e.preventDefault(); check(); });
-    qs('#btn-hint').addEventListener('click', hint);
-    qs('#btn-reset').addEventListener('click', () => { resetState(); renderStart(); showToast('Se reinició el juego.'); });
-    qs('#btn-skip').addEventListener('click', skip);
-    qs('#btn-export').addEventListener('click', exportProgress);
-    qs('#play-again').addEventListener('click', () => { resetState(); renderStart(); });
-    qs('#download-certificate').addEventListener('click', downloadCertificate);
-    qs('#how').addEventListener('click', () => {
-      alert(`Cómo personalizar:\n\n1) Cambiá el arreglo HUNT.clues en el código.\n   - title: título de la pista\n   - text: enunciado\n   - answer: "respuesta" o ["sinonimo1", "sinonimo2"]\n   - hint: pista opcional\n   - token: letra que contribuye a la CLAVE FINAL (opcional)\n   - isFinal: true solo para la última que pide el CÓDIGO\n2) El mapa muestra 6 marcas (5 pistas + cofre). Si agregás más, duplicá círculos/segmentos o ajustá la ruta.\n3) El progreso mueve el barco y va revelando la ruta.\n4) El progreso se guarda en localStorage. Con "Reiniciar" empezás de cero.`);
+  try {
+    const res = await fetch('/registrar', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({ nombre: inputName, correo: inputEmail })
     });
-    qs('#btn-demo').addEventListener('click', () => { resetState(); showToast('Demo cargada'); renderStart(); });
-    qs('#btn-clear').addEventListener('click', () => { localStorage.removeItem(STORAGE_KEY); resetState(); renderStart(); showToast('Progreso borrado'); });
-    qs('#player-name').addEventListener('input', e => e.target.classList.remove('invalid'));
-    qs('#player-email').addEventListener('input', e => e.target.classList.remove('invalid'));
-    qs('#toggle-timer').addEventListener('click', () => { showToast('El temporizador está fijo a 10:00'); });
 
-    // brújula animada sutil
-    setInterval(() => { const needle = document.querySelector('.needle'); const deg = 15 + Math.sin(Date.now() / 1200) * 10; needle.style.transform = `rotate(${deg}deg)`; }, 200);
+    const text = await res.text();
+    if (!res.ok || text.includes('Error') || text.includes('⚠️')) {
+      showToast(text);
+      return;
+    }
+    // Si llega acá, el registro fue nuevo o ya existente, pero permitimos jugar
+    showToast(text); // "✅ Registro exitoso..." o "🔁 Ya estás registrado..."
+    state.name = inputName;
+    state.email = inputEmail; // redundante pero mantiene consistencia
+    state.idx = 0;
+    state.solved = 0;
+    state.startAt = Date.now();
+    state.timeUp = false;
+    state.timerOn = true;
+    saveState();
 
-    // Carga inicial
-    if (loadState()) {
-      const nameBad = !state.name || state.name.trim().length < 2;
-      const emailBad = !state.email || !isValidUnaEmail(state.email);
-      if (nameBad || emailBad) { state.name = ''; state.email = ''; saveState(); renderStart(); }
-      else if (state.solved >= HUNT.clues.length) { renderFinish(); }
-      else { renderGame(); if (state.timeUp) { elTimer.textContent = '00:00'; } else { startTimer(); } }
-    } else {
-      renderStart();
+    renderGame();
+    startTimer();
+  } catch (err) {
+    console.error(err);
+    showToast("❌ Error al conectar con el servidor.");
+  }
+}
+
+function check(){
+  if(state.timeUp){ return; }
+  const current = HUNT.clues[state.idx];
+  const val = qs('#answer').value;
+  if(!val){ return showToast('Escribí una respuesta.'); }
+
+  if(current.isFinal){
+    const expected = expectedCode();
+    const ok = normalize(val).replace(/\s+/g,'') === normalize(expected);
+    if(!ok){ bumpWrong(); showToast('❌ Código incorrecto. Revisá las letras que juntaste.'); return; }
+    state.solved = Math.max(state.solved, state.idx+1);
+    stopTimer(); saveState(); renderFinish();
+    return;
+  }
+
+  const ok = matchesAnswer(val, current.answer);
+  if(!ok){ bumpWrong(); showToast('❌ Respuesta incorrecta. ¡Intentalo de nuevo!'); return; }
+
+  state.solved = Math.max(state.solved, state.idx+1); saveState();
+  if(current.token){ elHintArea.textContent = '🔐 ' + (current.postSolve || `Letra de la clave: ${(current.token||'').toUpperCase()}`); showToast(`✅ ¡Correcto! Letra agregada: ${(current.token||'').toUpperCase()}`); }
+  else { showToast('✅ ¡Correcto! Avanzando…'); }
+
+  next();
+}
+
+function bumpWrong(){ elAnswer.classList.add('shake','invalid'); setTimeout(()=>{ elAnswer.classList.remove('shake'); }, 400); }
+
+function next(){ if(state.idx < HUNT.clues.length - 1){ state.idx++; saveState(); renderGame(); } else { stopTimer(); saveState(); renderFinish(); } }
+function hint(){ if(state.timeUp){ return; } const c = HUNT.clues[state.idx]; if(c.isFinal){ showToast('En la última pista, usá las letras reunidas.'); return; } if(!c.hint){ showToast('No hay pista de ayuda para esta pregunta.'); return; } qs('#hint-area').textContent = '💡 ' + c.hint; state.hintsUsed++; saveState(); qs('#pill-hints').textContent = state.hintsUsed; }
+function skip(){ if(state.timeUp){ return; } state.solved = Math.max(state.solved, state.idx+1); next(); }
+
+function startTimer(){ stopTimer(); const tick = () => { if(!state.startAt){ state.startAt = Date.now(); saveState(); } const elapsed = Date.now() - state.startAt; const remaining = Math.max(0, LIMIT_MS - elapsed); qs('#timer').textContent = fmtTime(remaining); if(remaining <= 0 && !state.timeUp){ timeUp(); } }; tick(); timerInterval = setInterval(tick, 250); }
+function stopTimer(){ clearInterval(timerInterval); timerInterval = null; }
+function timeUp(){ stopTimer(); state.timeUp = true; saveState(); qs('#timer').textContent = '00:00'; showToast('⏰ Tiempo agotado'); qs('#answer').disabled = true; qs('#submit').disabled = true; qs('#btn-hint').disabled = true; qs('#btn-skip').disabled = true; qs('#hint-area').textContent = '⏰ Se acabó el tiempo. Presioná Reiniciar para intentarlo de nuevo.'; qs('#status-pill').textContent = 'Tiempo agotado'; }
+
+function exportProgress(){ const payload = { name: state.name, email: state.email, solved: state.solved, total: HUNT.clues.length, hintsUsed: state.hintsUsed, timeSeconds: Math.floor((Date.now() - (state.startAt || Date.now()))/1000) }; const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'progreso_tesoro.json'; a.click(); URL.revokeObjectURL(url); }
+
+function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(()=> toast.classList.remove('show'), 2000); }
+
+function shootConfetti(){ confetti.innerHTML=''; const icons = ['🎉','✨','🎈','🪙','⭐','💎','🏆']; for(let i=0;i<100;i++){ const span = document.createElement('span'); span.textContent = icons[Math.floor(Math.random()*icons.length)]; span.style.left = Math.random()*100 + 'vw'; span.style.animationDelay = (Math.random()*1.5)+'s'; confetti.appendChild(span); } setTimeout(()=> confetti.innerHTML='', 3500); }
+
+// ===============================
+//  CERTIFICADO (canvas + persistencia de correo)
+// ===============================
+async function downloadCertificate(){
+  const name = (window.state?.name || 'Equipo');
+  const totalMs = window.state?.startAt ? (Date.now() - window.state.startAt) : (window.state?.elapsedMs || 0);
+  const timeTxt = fmtTime(totalMs);
+
+  // Obtener correo y validar dominio
+  const correo = getCorreo();
+  if(!isValidUnaEmail(correo)){
+    alert("Ingresá tu correo institucional @est.una.ac.cr antes de descargar el certificado.");
+    return;
+  }
+
+  // Asegurar persistencia inmediata (por si se recarga antes de terminar)
+  cacheCorreo(correo);
+
+  // Botón correcto del HTML: #download-certificate
+  const btn = document.querySelector("#download-certificate");
+  if (btn) { btn.disabled = true; btn.textContent = "Emitiendo certificado..."; }
+
+  // Emitir certificado en el servidor
+  try{
+    const resp = await fetch("/certificado", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ correo })
+    });
+
+    const contentType = resp.headers.get("content-type") || "";
+    const data = contentType.includes("application/json") ? await resp.json() : await resp.text();
+
+    if (!resp.ok) {
+      const msg = (typeof data === "string") ? data : (data?.mensaje || "No se pudo emitir el certificado.");
+      alert(msg);
+      if (btn) { btn.disabled = false; btn.textContent = "Descargar certificado"; }
+      return;
     }
 
+    if (typeof data === "string" && data.includes("ya había sido emitido")) {
+      alert("El certificado ya había sido emitido anteriormente para este correo.");
+      if (btn) { btn.disabled = false; btn.textContent = "Descargar certificado"; }
+      return;
+    }
 
-  </script>
+    // === Dibuja y descarga el PNG ===
+    const c = document.createElement('canvas'); c.width = 1400; c.height = 900;
+    const ctx = c.getContext('2d');
+
+    // fondo pergamino
+    const grad = ctx.createLinearGradient(0,0,0,900);
+    grad.addColorStop(0,'#fff3c8'); grad.addColorStop(1,'#e8d6ac');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,c.width,c.height);
+
+    // borde
+    ctx.strokeStyle = '#caa645'; ctx.lineWidth = 12; ctx.strokeRect(40,40,c.width-80,c.height-80);
+
+    // título
+    ctx.fillStyle = '#2b2620'; ctx.font = 'bold 70px system-ui';
+    ctx.fillText('Certificado de Exploración', 120, 180);
+
+    // contenido
+    ctx.font = '32px system-ui'; ctx.fillStyle = '#3b332a';
+    const lines = [
+      `Se certifica que`,
+      `${name}`,
+      `completó la Búsqueda del Tesoro – Guanacaste`,
+      `Tiempo: ${timeTxt}  •  Ayudas usadas: ${window.state?.hintsUsed ?? 0}`
+    ];
+    ctx.font = 'bold 56px system-ui'; ctx.fillText(lines[1], 120, 340);
+    ctx.font = '32px system-ui'; ctx.fillText(lines[0], 120, 290);
+    ctx.fillText(lines[2], 120, 400);
+    ctx.fillText(lines[3], 120, 450);
+
+    // sello
+    ctx.beginPath(); ctx.arc(1180, 720, 90, 0, Math.PI*2); ctx.fillStyle = '#c0392b'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 6; ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 28px system-ui';
+    ctx.fillText('TESORO', 1126, 710); ctx.fillText('ENCONTRADO', 1080, 745);
+
+    const url = c.toDataURL('image/png');
+    const a = document.createElement('a'); a.href = url; a.download = 'certificado_tesoro.png'; a.click();
+
+    // Marca local para tu UI
+    window.state = window.state || {};
+    window.state.jugo = 1; // ya emitido
+    saveState();
+
+    alert("🎉 Certificado emitido y descargado.");
+  } catch (e) {
+    console.error(e);
+    alert("Error de red al emitir certificado. Verificá conexión/servidor.");
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = "Descargar certificado"; }
+  }
+}
+
+// ===============================
+//  MAPA: progreso y controles
+// ===============================
+function tokenCount(){ return HUNT.clues.filter(c=>c.token).length; }
+function solvedTokens(){ return Math.min(state.solved, tokenCount()); }
+
+function updateMapProgress(finished=false){
+  const totalTok = tokenCount();
+  const solvedTok = solvedTokens();
+
+  // Encender marcadores resueltos
+  for(let i=1;i<=6;i++){
+    const m = document.getElementById('mark-'+i) || document.getElementById('mark-'+i)?.querySelector?.('rect');
+    const group = document.getElementById('mark-'+i);
+    if(!m && !group) continue;
+    const isFound = i <= Math.min(state.solved, 6);
+    const el = document.getElementById('mark-'+i);
+    if(el){ el.classList.toggle('found', isFound); }
+  }
+
+  // Progreso sobre la ruta
+  if(routePath && routeCover){
+    const totalLen = routePath.getTotalLength();
+    const progress = (finished ? 1 : (state.solved / HUNT.clues.length));
+    const showLen = totalLen * progress;
+    routeCover.style.strokeDasharray = `${showLen} ${Math.max(0,totalLen - showLen)}`;
+    routeCover.style.strokeDashoffset = 0;
+
+    // mover barquito
+    const point = routePath.getPointAtLength(Math.max(0, Math.min(totalLen, showLen)));
+    ship.setAttribute('transform', `translate(${point.x},${point.y}) rotate(${progress*20})`);
+  }
+}
+
+// Pan & zoom sencillo
+let currentScale = 1, minScale = .9, maxScale = 2.2; let isPanning=false, last={x:0,y:0}; let offset={x:0,y:0};
+function applyTransform(){ mapViewport.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${currentScale})`; }
+function zoomAt(factor, cx=0, cy=0){ const prev = currentScale; currentScale = Math.min(maxScale, Math.max(minScale, currentScale * factor)); const k = currentScale/prev - 1; offset.x -= (cx - offset.x) * k; offset.y -= (cy - offset.y) * k; applyTransform(); }
+
+mapViewport.addEventListener('wheel', (e)=>{ e.preventDefault(); const rect = mapViewport.getBoundingClientRect(); zoomAt(e.deltaY < 0 ? 1.1 : 0.9, e.clientX - rect.left, e.clientY - rect.top); }, {passive:false});
+mapViewport.addEventListener('mousedown', (e)=>{ isPanning=true; last.x=e.clientX; last.y=e.clientY; });
+window.addEventListener('mousemove', (e)=>{ if(!isPanning) return; offset.x += e.clientX - last.x; offset.y += e.clientY - last.y; last.x=e.clientX; last.y=e.clientY; applyTransform(); });
+window.addEventListener('mouseup', ()=>{ isPanning=false; });
+
+qs('#btn-map-zoom-in').addEventListener('click', ()=> zoomAt(1.15, 450, 270));
+qs('#btn-map-zoom-out').addEventListener('click', ()=> zoomAt(0.85, 450, 270));
+qs('#btn-map-full').addEventListener('click', ()=>{ mapCard.classList.toggle('map-fullscreen'); applyTransform(); });
+
+// ===============================
+//  EVENTOS
+// ===============================
+qs('#start').addEventListener('click', startGame);
+qs('#submit').addEventListener('click', (e)=>{ e.preventDefault(); check(); });
+qs('#answer-form').addEventListener('submit',(e)=>{ e.preventDefault(); check(); });
+qs('#btn-hint').addEventListener('click', hint);
+qs('#btn-reset').addEventListener('click', ()=>{ resetState(); renderStart(); showToast('Se reinició el juego.'); });
+qs('#btn-skip').addEventListener('click', skip);
+qs('#btn-export').addEventListener('click', exportProgress);
+qs('#play-again').addEventListener('click', ()=>{ resetState(); renderStart(); });
+qs('#download-certificate').addEventListener('click', downloadCertificate);
+qs('#how').addEventListener('click', ()=>{
+  alert(`Cómo personalizar:\n\n1) Cambiá el arreglo HUNT.clues en el código.\n   - title: título de la pista\n   - text: enunciado\n   - answer: "respuesta" o ["sinonimo1", "sinonimo2"]\n   - hint: pista opcional\n   - token: letra que contribuye a la CLAVE FINAL (opcional)\n   - isFinal: true solo para la última que pide el CÓDIGO\n2) El mapa muestra 6 marcas (5 pistas + cofre). Si agregás más, duplicá círculos/segmentos o ajustá la ruta.\n3) El progreso mueve el barco y va revelando la ruta.\n4) El progreso se guarda en localStorage. Con "Reiniciar" empezás de cero.`);
+});
+qs('#btn-demo').addEventListener('click', ()=>{ resetState(); showToast('Demo cargada'); renderStart(); });
+qs('#btn-clear').addEventListener('click', ()=>{ localStorage.removeItem(STORAGE_KEY); resetState(); renderStart(); showToast('Progreso borrado'); });
+qs('#player-name').addEventListener('input', e => e.target.classList.remove('invalid'));
+qs('#player-email').addEventListener('input', e => e.target.classList.remove('invalid'));
+qs('#player-email')?.addEventListener('blur', (e)=>{ // guarda al salir del campo si es válido
+  const v = (e.target.value || '').trim().toLowerCase();
+  if (isValidUnaEmail(v)) cacheCorreo(v);
+});
+qs('#toggle-timer').addEventListener('click', ()=>{ showToast('El temporizador está fijo a 10:00'); });
+
+// brújula animada sutil
+setInterval(()=>{ const needle = document.querySelector('.needle'); const deg = 15 + Math.sin(Date.now()/1200)*10; needle.style.transform = `rotate(${deg}deg)`; }, 200);
+
+// Carga inicial
+if(loadState()){
+  const nameBad = !state.name || state.name.trim().length < 2;
+  const emailBad = !state.email || !isValidUnaEmail(state.email);
+  if(nameBad || emailBad){
+    // antes de borrar, intentamos rescatar de persistencia
+    const rescued = readCorreoPersistido();
+    state.name = nameBad ? '' : state.name;
+    state.email = isValidUnaEmail(rescued) ? rescued : '';
+    saveState();
+    renderStart();
+  } else if(state.solved >= HUNT.clues.length){
+    renderFinish();
+  } else {
+    renderGame();
+    if(state.timeUp){ elTimer.textContent = '00:00'; } else { startTimer(); }
+  }
+} else {
+  renderStart();
+}
+</script>
 </body>
-
 </html>
