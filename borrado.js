@@ -4,51 +4,54 @@ const sqlite3 = require("sqlite3").verbose();
 
 const dbPath = path.join(__dirname, "database.db");
 
-// Función: resetear base de datos
+// Función: resetear base de datos (RESET SUAVE, sin borrar archivo)
 function resetDatabase(callback) {
-try {
-    // 1. Eliminar archivo existente (si lo hay)
-    if (fs.existsSync(dbPath)) {
-    fs.unlinkSync(dbPath);
-    console.log("🗑️ Base de datos eliminada.");
-    }
-
-    // 2. Crear nueva conexión (crea archivo vacío automáticamente)
+  try {
     const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error("❌ Error creando nueva BD:", err.message);
+      if (err) {
+        console.error("❌ Error abriendo BD para reset suave:", err.message);
         if (callback) callback(err);
         return;
-    }
-    console.log("📦 Nueva base de datos creada.");
+      }
+      // Evita "database is locked" esperando un poco si hay uso concurrente
+      db.configure("busyTimeout", 3000);
 
-      // 3. Ejecutar esquema
-    db.serialize(() => {
-        db.run(
-        `
-            CREATE TABLE usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            correo TEXT NOT NULL UNIQUE,
-            jugo INTEGER NOT NULL DEFAULT 0
-            )
-        `,
-        (err2) => {
-            if (err2) {
-            console.error("❌ Error creando tabla:", err2.message);
-            if (callback) callback(err2);
-            } else {
-            console.log("✅ Tabla 'usuarios' creada desde cero.");
-            if (callback) callback(null, db);
-            }
-        }
+      const schema = `
+        BEGIN IMMEDIATE;
+        DROP TABLE IF EXISTS usuarios;
+        CREATE TABLE usuarios (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nombre TEXT NOT NULL,
+          correo TEXT NOT NULL UNIQUE,
+          jugo INTEGER NOT NULL DEFAULT 0
         );
+        DELETE FROM sqlite_sequence WHERE name='usuarios';
+        COMMIT;
+      `;
+
+      db.exec(schema, (e) => {
+        if (e) {
+          console.error("❌ Error en reset suave:", e.message);
+          // Intenta deshacer si algo quedó abierto
+          db.exec("ROLLBACK;", () => {
+            db.close(() => {
+              if (callback) callback(e);
+            });
+          });
+          return;
+        }
+
+        console.log("🔄 Reset suave completado. Tabla 'usuarios' lista.");
+        // Cerramos esta conexión auxiliar para no dejar el archivo bloqueado
+        db.close(() => {
+          if (callback) callback(null);
+        });
+      });
     });
-    });
-} catch (e) {
-    console.error("❌ Error reseteando BD:", e.message);
+  } catch (e) {
+    console.error("❌ Error reseteando BD (suave):", e.message);
     if (callback) callback(e);
-}
+  }
 }
 
 module.exports = { resetDatabase };

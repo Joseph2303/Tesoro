@@ -1,8 +1,9 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const bodyParser = require("body-parser");
-const { resetDatabase } = require("./resetDb");
+const { resetDatabase } = require("./borrado");
 const path = require("path");
+const { getUsuarioPorCorreo } = require("./obtenerusers");
 
 const app = express();
 const PORT = 3000;
@@ -208,6 +209,17 @@ app.get("/usuarios", (req, res) => {
       res.json(rows);
     }
   );
+});
+
+app.get("/usuario", async (req, res) => {
+  try {
+    const correo = req.query.correo || "";
+    console.log("correo:", correo);
+    const user = await getUsuarioPorCorreo(db, correo);
+    res.json(user);
+  } catch (e) {
+    res.status(e.status || 500).send(e.message || "Error");
+  }
 });
 
 app.get("/", (req, res) => {

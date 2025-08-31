@@ -498,82 +498,86 @@
       font-size: 12px
     }
 
-/* Botón ghost – tema Tesoro */
-.btn-ghost{
-  /* Paleta (con valores por defecto por si no tenés variables definidas) */
-  --accent: var(--accent, #c0392b);     /* rojo */
-  --accent-2: var(--accent-2, #8e2118); /* rojo profundo */
-  --gold: var(--gold, #caa645);         /* dorado */
-  --parchment: var(--bg, #f4e7c5);      /* pergamino */
-  --ink: var(--ink, #2b2620);           /* tinta */
+    /* Botón ghost – tema Tesoro */
+    .btn-ghost {
+      /* Paleta (con valores por defecto por si no tenés variables definidas) */
+      --accent: var(--accent, #c0392b);
+      /* rojo */
+      --accent-2: var(--accent-2, #8e2118);
+      /* rojo profundo */
+      --gold: var(--gold, #caa645);
+      /* dorado */
+      --parchment: var(--bg, #f4e7c5);
+      /* pergamino */
+      --ink: var(--ink, #2b2620);
+      /* tinta */
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
 
-  padding: .72rem 1.1rem;
-  border: 2px solid var(--accent);
-  border-radius: 12px;
+      padding: .72rem 1.1rem;
+      border: 2px solid var(--accent);
+      border-radius: 12px;
 
-  background:
-    linear-gradient(0deg, rgba(202,166,69,.10), rgba(202,166,69,.10)); /* velo dorado */
-  color: var(--ink);
-  text-decoration: none;
-  font-weight: 800;
-  letter-spacing: .2px;
+      background:
+        linear-gradient(0deg, rgba(202, 166, 69, .10), rgba(202, 166, 69, .10));
+      /* velo dorado */
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: .2px;
 
-  box-shadow:
-    0 3px 0 var(--accent-2),
-    0 10px 18px rgba(0,0,0,.08);
-  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
-  will-change: transform;
-}
+      box-shadow:
+        0 3px 0 var(--accent-2),
+        0 10px 18px rgba(0, 0, 0, .08);
+      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+      will-change: transform;
+    }
 
-/* Hover / Focus */
-.btn-ghost:hover,
-.btn-ghost:focus-visible{
-  border-color: var(--gold);
-  background:
-    linear-gradient(0deg, rgba(202,166,69,.18), rgba(202,166,69,.18));
-  box-shadow:
-    0 2px 0 var(--accent-2),
-    0 14px 24px rgba(0,0,0,.12);
-  outline: 3px solid rgba(202,166,69,.35);
-  outline-offset: 2px;
-}
+    /* Hover / Focus */
+    .btn-ghost:hover,
+    .btn-ghost:focus-visible {
+      border-color: var(--gold);
+      background:
+        linear-gradient(0deg, rgba(202, 166, 69, .18), rgba(202, 166, 69, .18));
+      box-shadow:
+        0 2px 0 var(--accent-2),
+        0 14px 24px rgba(0, 0, 0, .12);
+      outline: 3px solid rgba(202, 166, 69, .35);
+      outline-offset: 2px;
+    }
 
-/* Activo (click) */
-.btn-ghost:active{
-  transform: translateY(1px);
-  box-shadow:
-    0 1px 0 var(--accent-2),
-    0 8px 16px rgba(0,0,0,.10);
-}
+    /* Activo (click) */
+    .btn-ghost:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 1px 0 var(--accent-2),
+        0 8px 16px rgba(0, 0, 0, .10);
+    }
 
-/* Estado deshabilitado (si algún día lo usás como <button disabled>) */
-.btn-ghost[aria-disabled="true"],
-.btn-ghost[disabled]{
-  opacity: .6;
-  cursor: not-allowed;
-  box-shadow: none;
-}
+    /* Estado deshabilitado (si algún día lo usás como <button disabled>) */
+    .btn-ghost[aria-disabled="true"],
+    .btn-ghost[disabled] {
+      opacity: .6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
 
-/* Opción: que ocupe todo el ancho en móvil */
-@media (max-width: 480px){
-  .btn-ghost{
-    width: 100%;
-  }
-}
+    /* Opción: que ocupe todo el ancho en móvil */
+    @media (max-width: 480px) {
+      .btn-ghost {
+        width: 100%;
+      }
+    }
 
-/* Respeta usuarios con “reducir movimientos” */
-@media (prefers-reduced-motion: reduce){
-  .btn-ghost{
-    transition: none;
-  }
-}
-
-
+    /* Respeta usuarios con “reducir movimientos” */
+    @media (prefers-reduced-motion: reduce) {
+      .btn-ghost {
+        transition: none;
+      }
+    }
   </style>
 </head>
 
@@ -602,32 +606,34 @@
           <div class="map-viewport" id="map-viewport">
             <svg class="treasure" aria-label="Mapa del tesoro" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg">
               <!-- mar -->
-              <rect class="sea" x="0" y="0" width="900" height="540" />
+              <rect class="sea" x="0" y="0" width="900" height="540"></rect>
               <!-- islas -->
               <path class="island"
-                d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z" />
+                d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z"></path>
               <path class="island"
-                d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z" />
-              <path class="shore" d="M145,175 C205,90 360,85 415,185" />
-              <path class="shore" d="M525,335 C565,255 700,255 755,325" />
+                d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z"></path>
+              <path class="shore" d="M145,175 C205,90 360,85 415,185"></path>
+              <path class="shore" d="M525,335 C565,255 700,255 755,325"></path>
 
               <!-- ruta punteada (del 1 al 6) -->
-              <path id="route-path" class="route"
-                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420" />
+              <path class="route" id="route-path"
+                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420">
+              </path>
               <!-- cubre-progreso para simular avance sobre la ruta (pintamos encima) -->
-              <path id="route-cover" class="route cover"
-                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420" />
+              <path class="route cover" id="route-cover"
+                d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420">
+              </path>
 
               <!-- marcadores por pista -->
-              <circle id="mark-1" class="marker" cx="120" cy="126" r="8" />
-              <circle id="mark-2" class="marker" cx="250" cy="250" r="8" />
-              <circle id="mark-3" class="marker" cx="360" cy="300" r="8" />
-              <circle id="mark-4" class="marker" cx="510" cy="210" r="8" />
-              <circle id="mark-5" class="marker" cx="660" cy="330" r="8" />
+              <circle class="marker" id="mark-1" cx="120" cy="126" r="8"></circle>
+              <circle class="marker" id="mark-2" cx="250" cy="250" r="8"></circle>
+              <circle class="marker" id="mark-3" cx="360" cy="300" r="8"></circle>
+              <circle class="marker" id="mark-4" cx="510" cy="210" r="8"></circle>
+              <circle class="marker" id="mark-5" cx="660" cy="330" r="8"></circle>
               <g id="mark-6">
-                <rect class="chest" x="762" y="405" width="28" height="18" rx="3" />
-                <line class="xmark" x1="760" y1="400" x2="790" y2="430" />
-                <line class="xmark" x1="790" y1="400" x2="760" y2="430" />
+                <rect class="chest" x="762" y="405" width="28" height="18" rx="3"></rect>
+                <line class="xmark" x1="760" y1="400" x2="790" y2="430"></line>
+                <line class="xmark" x1="790" y1="400" x2="760" y2="430"></line>
               </g>
 
               <!-- barquito que avanza -->
@@ -637,9 +643,9 @@
 
               <!-- rosa de los vientos decorativa -->
               <g transform="translate(840,60)">
-                <circle r="26" fill="#fff7d5" stroke="#d8c795" />
-                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645" />
-                <circle r="3" fill="#8c6b2f" />
+                <circle r="26" fill="#fff7d5" stroke="#d8c795"></circle>
+                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645"></path>
+                <circle r="3" fill="#8c6b2f"></circle>
               </g>
             </svg>
           </div>
@@ -660,13 +666,13 @@
             <div class="row">
               <div>
                 <label class="muted">Nombre del jugador:</label>
-                <input id="player-name" type="text" placeholder="Ej: Joseph" required minlength="2" />
+                <input id="player-name" type="text" placeholder="Ej: Joseph" required minlength="2">
               </div>
               <div>
                 <label class="muted">Correo institucional:</label>
-                <input id="player-email" type="email" placeholder="usuario@est.una.ac.cr" inputmode="email"
-                  autocomplete="email" required pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$"
-                  title="Usá tu correo institucional que termine en @est.una.ac.cr" />
+                <input id="player-email" type="email" title="Usá tu correo institucional que termine en @est.una.ac.cr"
+                  placeholder="usuario@est.una.ac.cr" inputmode="email" autocomplete="email" required
+                  pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$">
               </div>
             </div>
 
@@ -710,8 +716,8 @@
             <img class="clue-img" id="clue-image" alt hidden>
 
             <div class="space"></div>
-            <form id="answer-form" class="row" autocomplete="off">
-              <input id="answer" type="text" placeholder="Escribí tu respuesta" aria-label="Respuesta" />
+            <form class="row" id="answer-form" autocomplete="off">
+              <input id="answer" type="text" aria-label="Respuesta" placeholder="Escribí tu respuesta">
               <button id="submit">Comprobar</button>
               <button class="btn-ghost" id="btn-hint" type="button">Pedir pista</button>
             </form>
@@ -735,14 +741,17 @@
             <div class="space"></div>
             <div class="row">
               <button id="play-again">Volver a jugar</button>
-              <button class="btn-gold" id="download-certificate">Descargar certificado</button>
+              <button class="btn primary" id="download-certificate" type="button">
+                Descargar certificado
+              </button>
+              <div id="msg" role="status" aria-live="polite"></div>
             </div>
           </div>
         </section>
 
         <footer class="center muted">
           <div>
-            <a href="acercade.html" class="btn-ghost">Desarrolladores del Sistema</a>
+            <a class="btn-ghost" href="acercade.html">Desarrolladores del Sistema</a>
           </div>
         </footer>
       </div>
@@ -818,6 +827,18 @@
         }
       ]
     };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("download-certificate");
+      if (!btn) {
+        console.warn("No se encontró #download-certificate");
+        return;
+      }
+      btn.addEventListener("click", () => {
+        // Llama a tu función existente
+        downloadCertificate();
+      });
+    });
 
     // ===============================
     //  ESTADO Y UTILIDADES
@@ -1077,16 +1098,18 @@
     //  CERTIFICADO (canvas + persistencia de correo)
     // ===============================
     async function downloadCertificate() {
-      const name = (window.state?.name || 'Equipo');
-      const totalMs = window.state?.startAt ? (Date.now() - window.state.startAt) : (window.state?.elapsedMs || 0);
-      const timeTxt = fmtTime(totalMs);
-
       // Obtener correo y validar dominio
       const correo = getCorreo();
       if (!isValidUnaEmail(correo)) {
         alert("Ingresá tu correo institucional @est.una.ac.cr antes de descargar el certificado.");
         return;
       }
+      const name = (correo || 'Equipo');
+      const totalMs = window.state?.startAt ? (Date.now() - window.state.startAt) : (window.state?.elapsedMs || 0);
+      const timeTxt = fmtTime(totalMs);
+
+
+
 
       // Asegurar persistencia inmediata (por si se recarga antes de terminar)
       cacheCorreo(correo);
@@ -1119,43 +1142,94 @@
           return;
         }
 
-        // === Dibuja y descarga el PNG ===
+        // === Dibuja y descarga el PNG (versión conmemorativa) ===
         const c = document.createElement('canvas'); c.width = 1400; c.height = 900;
         const ctx = c.getContext('2d');
 
-        // fondo pergamino
-        const grad = ctx.createLinearGradient(0, 0, 0, 900);
-        grad.addColorStop(0, '#fff3c8'); grad.addColorStop(1, '#e8d6ac');
-        ctx.fillStyle = grad; ctx.fillRect(0, 0, c.width, c.height);
+        // Fondo pergamino
+        const grad = ctx.createLinearGradient(0, 0, 0, c.height);
+        grad.addColorStop(0, '#fff3c8');
+        grad.addColorStop(1, '#e8d6ac');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, c.width, c.height);
 
-        // borde
-        ctx.strokeStyle = '#caa645'; ctx.lineWidth = 12; ctx.strokeRect(40, 40, c.width - 80, c.height - 80);
+        // Borde
+        ctx.strokeStyle = '#caa645';
+        ctx.lineWidth = 12;
+        ctx.strokeRect(40, 40, c.width - 80, c.height - 80);
 
-        // título
-        ctx.fillStyle = '#2b2620'; ctx.font = 'bold 70px system-ui';
-        ctx.fillText('Certificado de Exploración', 120, 180);
+        // Datos dinámicos conmemorativos
+        const fechaTxt = new Intl.DateTimeFormat('es-CR', { dateStyle: 'long' }).format(new Date());
+        const folio = 'TES-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+        const correoShown = getCorreo();
 
-        // contenido
-        ctx.font = '32px system-ui'; ctx.fillStyle = '#3b332a';
-        const lines = [
-          `Se certifica que`,
-          `${name}`,
-          `completó la Búsqueda del Tesoro – Guanacaste`,
-          `Tiempo: ${timeTxt}  •  Ayudas usadas: ${window.state?.hintsUsed ?? 0}`
+        // Título
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#2b2620';
+        ctx.font = 'bold 70px system-ui';
+        ctx.fillText('Certificado de Exploración', c.width / 2, 160);
+
+        // Encabezado ceremonial
+        ctx.font = '28px system-ui';
+        let y = 230;
+        const pre = [
+          'La Organización de la Búsqueda del Tesoro – Guanacaste',
+          'otorga el presente reconocimiento a'
         ];
-        ctx.font = 'bold 56px system-ui'; ctx.fillText(lines[1], 120, 340);
-        ctx.font = '32px system-ui'; ctx.fillText(lines[0], 120, 290);
-        ctx.fillText(lines[2], 120, 400);
-        ctx.fillText(lines[3], 120, 450);
+        pre.forEach(line => { ctx.fillText(line, c.width / 2, y); y += 38; });
 
-        // sello
-        ctx.beginPath(); ctx.arc(1180, 720, 90, 0, Math.PI * 2); ctx.fillStyle = '#c0392b'; ctx.fill();
-        ctx.strokeStyle = '#fff'; ctx.lineWidth = 6; ctx.stroke();
-        ctx.fillStyle = '#fff'; ctx.font = 'bold 28px system-ui';
-        ctx.fillText('TESORO', 1126, 710); ctx.fillText('ENCONTRADO', 1080, 745);
+        // Nombre grande
+        ctx.font = 'bold 64px system-ui';
+        ctx.fillText(name, c.width / 2, y + 6);
+        y += 70;
 
+        // Separador decorativo
+        ctx.fillStyle = '#caa645';
+        ctx.fillRect(c.width / 2 - 160, y - 8, 320, 3);
+        ctx.fillStyle = '#3b332a';
+
+        // Cuerpo del texto
+        ctx.font = '28px system-ui';
+        const post = [
+          'por su destacada participación y espíritu explorador,',
+          'al completar exitosamente el recorrido cultural y turístico.',
+          `Tiempo de exploración: ${timeTxt} • Ayudas usadas: ${window.state?.hintsUsed ?? 0}`,
+          `Guanacaste, Costa Rica — ${fechaTxt}`,
+          `Folio: ${folio}  •  ${correoShown}`
+        ];
+        post.forEach(line => { y += 42; ctx.fillText(line, c.width / 2, y); });
+
+        // Sello
+        ctx.beginPath();
+        ctx.arc(1180, 720, 90, 0, Math.PI * 2);
+        ctx.fillStyle = '#c0392b';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 28px system-ui';
+        ctx.fillText('TESORO', 1180, 710);
+        ctx.fillText('ENCONTRADO', 1180, 745);
+
+        // Área de firmas (opcional)
+        ctx.fillStyle = '#3b332a';
+        ctx.font = '22px system-ui';
+        ctx.fillText('_____________________________', c.width / 2 - 300, 790);
+        ctx.fillText('_____________________________', c.width / 2 + 300, 790);
+        ctx.fillText('Comité Organizador', c.width / 2 - 300, 818);
+        ctx.fillText('Coordinación del Evento', c.width / 2 + 300, 818);
+
+        ctx.restore();
+
+        // Descargar
         const url = c.toDataURL('image/png');
-        const a = document.createElement('a'); a.href = url; a.download = 'certificado_tesoro.png'; a.click();
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'certificado_tesoro.png';
+        a.click();
 
         // Marca local para tu UI
         window.state = window.state || {};
