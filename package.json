@@ -5,7 +5,8 @@
   "main": "public/index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "echo 'Nada que compilar'"
   },
   "keywords": [],
   "author": "",
