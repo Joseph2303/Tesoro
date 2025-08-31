@@ -195,9 +195,14 @@ app.post("/certificado", (req, res) => {
 });
 
 app.post("/resetdb", (req, res) => {
-  resetDatabase((err) => {
-    if (err) return res.status(500).send("Error reseteando la base de datos");
-    res.send("🔄 Base de datos eliminada y recreada con éxito.");
+  const { key } = req.body || {};
+  resetDatabase(key, (err) => {
+    if (err) {
+      return res
+        .status(err.httpStatus || 500)
+        .send(err.message || "Error al resetear la BD");
+    }
+    res.send("🔄 Base de datos reiniciada (reset suave).");
   });
 });
 

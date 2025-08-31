@@ -282,23 +282,32 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById("btnReset").addEventListener("click", async () => {
-      if (!confirm("⚠️ ¿Seguro que querés borrar toda la base de datos y reiniciarla?")) return;
+<script>
+  document.getElementById("btnReset").addEventListener("click", async () => {
+    if (!confirm("⚠️ ¿Seguro que querés borrar toda la base de datos y reiniciarla?")) return;
 
-      try {
-        const res = await fetch("/resetdb", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" }
-        });
+    const key = prompt("🔐 Ingresá la clave de administrador para continuar:");
+    if (!key) { alert("Operación cancelada."); return; }
 
-        const data = await res.text();
-        alert(data);
-      } catch (err) {
-        alert("❌ Error llamando al servidor");
-        console.error(err);
+    try {
+      const res = await fetch("/resetdb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key })
+      });
+
+      const msg = await res.text();
+      if (!res.ok) {
+        alert(`❌ ${res.status} – ${msg}`);
+        return;
       }
-    });
-  </script>
+      alert(msg);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error llamando al servidor");
+    }
+  });
+</script>
+
 </body>
 </html>
