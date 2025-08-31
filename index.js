@@ -1,22 +1,22 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const bodyParser = require("body-parser");
+const { resetDatabase } = require("./resetDb");
 const path = require("path");
 
 const app = express();
 const PORT = 3000;
 
-// Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Helper: normalizar correo
 function normalizarCorreo(c) {
-  return String(c || "").trim().toLowerCase();
+  return String(c || "")
+    .trim()
+    .toLowerCase();
 }
 
-// Base de datos SQLite
 const dbPath = path.join(__dirname, "database.db");
 console.log("🗃️ DB path:", dbPath);
 
@@ -28,9 +28,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// === Esquema y migración SERIALIZADOS ===
 db.serialize(() => {
-  // Crear tabla si no existe (incluye jugo)
   db.run(`
     CREATE TABLE IF NOT EXISTS usuarios (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,7 +38,6 @@ db.serialize(() => {
     )
   `);
 
-  // Migración suave: añade 'jugo' si no existiera por tablas antiguas
   db.all("PRAGMA table_info(usuarios);", (err, cols) => {
     if (err) {
       console.error("❌ Error leyendo esquema:", err.message);
@@ -62,7 +59,6 @@ db.serialize(() => {
   });
 });
 
-// Ruta para registrar usuario
 app.post("/registrar", (req, res) => {
   console.log("LLEGÓ UN POST /registrar ...");
 
@@ -81,42 +77,48 @@ app.post("/registrar", (req, res) => {
     (err, row) => {
       if (err) return res.status(500).send("Error en la base de datos");
 
-      // Si ya existe y ya jugó/emitió certificado, bloquear reinicio
       if (row && row.jugo === 1) {
         return res
           .status(403)
-          .send("⛔ Ya completaste el juego y tu certificado fue emitido. No podés reiniciar.");
+          .send(
+            "⛔ Ya completaste el juego y tu certificado fue emitido. No podés reiniciar."
+          );
       }
 
-      // Si ya existe pero NO ha jugado/emitido certificado, permitir continuar
       if (row && row.jugo === 0) {
         return res.send("🔁 Ya estás registrado. Podés continuar el juego.");
       }
 
-      // Si NO existe el usuario, validar límite de certificados emitidos (jugo=1) antes de crear
-      db.get("SELECT COUNT(*) AS total FROM usuarios WHERE jugo = 1", (err2, countRow) => {
-        if (err2) return res.status(500).send("Error en la base de datos al verificar cupos");
+      db.get(
+        "SELECT COUNT(*) AS total FROM usuarios WHERE jugo = 1",
+        (err2, countRow) => {
+          if (err2)
+            return res
+              .status(500)
+              .send("Error en la base de datos al verificar cupos");
 
-        if (countRow.total >= 4) {
-          // Nadie más se puede registrar cuando ya hay 4 certificados emitidos
-          return res.status(403).send("⛔ Cupo cerrado: ya se emitieron 4 certificados, no se aceptan más registros.");
-        }
-
-        // Crear nuevo registro con jugo = 0 (no jugado)
-        db.run(
-          "INSERT INTO usuarios (nombre, correo, jugo) VALUES (?, ?, 0)",
-          [nombre, correo],
-          (err3) => {
-            if (err3) return res.status(500).send("Error al registrar");
-            res.send("✅ Registro exitoso. ¡Bienvenido!");
+          if (countRow.total >= 4) {
+            return res
+              .status(403)
+              .send(
+                "⛔ Cupo cerrado: ya se emitieron 4 certificados, no se aceptan más registros."
+              );
           }
-        );
-      });
+
+          db.run(
+            "INSERT INTO usuarios (nombre, correo, jugo) VALUES (?, ?, 0)",
+            [nombre, correo],
+            (err3) => {
+              if (err3) return res.status(500).send("Error al registrar");
+              res.send("✅ Registro exitoso. ¡Bienvenido!");
+            }
+          );
+        }
+      );
     }
   );
 });
 
-// Ruta para marcar certificado emitido (actualiza jugo=1)
 app.post("/certificado", (req, res) => {
   const correo = normalizarCorreo(req.body.correo);
   console.log("llega esto:", correo);
@@ -135,52 +137,69 @@ app.post("/certificado", (req, res) => {
       }
 
       if (row.jugo === 1) {
-        return res.send("🎓 El certificado ya había sido emitido anteriormente.");
+        return res.send(
+          "🎓 El certificado ya había sido emitido anteriormente."
+        );
       }
 
-      // 🔎 Ver cuántos ya tienen certificado emitido (jugo=1)
-      db.get("SELECT COUNT(*) as total FROM usuarios WHERE jugo = 1", (err2, countRow) => {
-        if (err2) return res.status(500).send("Error en la base de datos al contar certificados");
+      db.get(
+        "SELECT COUNT(*) as total FROM usuarios WHERE jugo = 1",
+        (err2, countRow) => {
+          if (err2)
+            return res
+              .status(500)
+              .send("Error en la base de datos al contar certificados");
 
-        if (countRow.total >= 4) {
-          return res.status(403).send("⛔ El límite de 4 certificados ya fue alcanzado.");
-        }
-
-        // ✅ Si todavía hay espacio, actualizar este usuario
-        db.run(
-          "UPDATE usuarios SET jugo = 1 WHERE correo = ?",
-          [correo],
-          function (err3) {
-            if (err3) return res.status(500).send("Error al actualizar certificado");
-            if (this.changes === 0) {
-              return res
-                .status(409)
-                .send("⚠️ No se actualizó ningún registro (verificá el correo).");
-            }
-
-            db.get(
-              "SELECT id, nombre, correo, jugo FROM usuarios WHERE correo = ?",
-              [correo],
-              (e3, rowAct) => {
-                if (e3)
-                  return res
-                    .status(500)
-                    .send("Actualizado, pero no se pudo leer el registro.");
-                res.json({
-                  mensaje: "🎉 Certificado emitido y bloqueo de reinicio activado.",
-                  usuario: rowAct,
-                });
-              }
-            );
+          if (countRow.total >= 4) {
+            return res
+              .status(403)
+              .send("⛔ El límite de 4 certificados ya fue alcanzado.");
           }
-        );
-      });
+
+          db.run(
+            "UPDATE usuarios SET jugo = 1 WHERE correo = ?",
+            [correo],
+            function (err3) {
+              if (err3)
+                return res.status(500).send("Error al actualizar certificado");
+              if (this.changes === 0) {
+                return res
+                  .status(409)
+                  .send(
+                    "⚠️ No se actualizó ningún registro (verificá el correo)."
+                  );
+              }
+
+              db.get(
+                "SELECT id, nombre, correo, jugo FROM usuarios WHERE correo = ?",
+                [correo],
+                (e3, rowAct) => {
+                  if (e3)
+                    return res
+                      .status(500)
+                      .send("Actualizado, pero no se pudo leer el registro.");
+                  res.json({
+                    mensaje:
+                      "🎉 Certificado emitido y bloqueo de reinicio activado.",
+                    usuario: rowAct,
+                  });
+                }
+              );
+            }
+          );
+        }
+      );
     }
   );
 });
 
+app.post("/resetdb", (req, res) => {
+  resetDatabase((err) => {
+    if (err) return res.status(500).send("Error reseteando la base de datos");
+    res.send("🔄 Base de datos eliminada y recreada con éxito.");
+  });
+});
 
-// Ruta para consultar usuarios (opcional)
 app.get("/usuarios", (req, res) => {
   db.all(
     "SELECT id, nombre, correo, jugo FROM usuarios ORDER BY id DESC",
@@ -191,12 +210,10 @@ app.get("/usuarios", (req, res) => {
   );
 });
 
-// Ruta para servir index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor activo en http://localhost:${PORT}`);
 });

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>🗺️ Búsqueda del Tesoro – Guanacaste</title>
   <style>
     /* ===============================
@@ -148,7 +148,7 @@
 
     <div class="layout">
       <!-- MAPA DEL TESORO -->
-      <section id="map-card" class="map-card card">
+      <section class="map-card card" id="map-card">
         <div class="map-header">
           <div class="map-title">Mapa del Tesoro</div>
           <div class="map-tools">
@@ -159,42 +159,42 @@
         </div>
         <div class="map-outer">
           <div class="map-viewport" id="map-viewport">
-            <svg class="treasure" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" aria-label="Mapa del tesoro">
+            <svg class="treasure" aria-label="Mapa del tesoro" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg">
               <!-- mar -->
-              <rect class="sea" x="0" y="0" width="900" height="540"/>
+              <rect class="sea" x="0" y="0" width="900" height="540"></rect>
               <!-- islas -->
-              <path class="island" d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z"/>
-              <path class="island" d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z"/>
-              <path class="shore" d="M145,175 C205,90 360,85 415,185"/>
-              <path class="shore" d="M525,335 C565,255 700,255 755,325"/>
+              <path class="island" d="M140,180 C200,80 360,70 420,180 C470,270 350,320 260,320 C190,320 120,260 140,180 Z"></path>
+              <path class="island" d="M520,340 C560,260 700,250 760,320 C820,390 740,460 640,460 C560,460 500,410 520,340 Z"></path>
+              <path class="shore" d="M145,175 C205,90 360,85 415,185"></path>
+              <path class="shore" d="M525,335 C565,255 700,255 755,325"></path>
 
               <!-- ruta punteada (del 1 al 6) -->
-              <path id="route-path" class="route" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"/>
+              <path class="route" id="route-path" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"></path>
               <!-- cubre-progreso para simular avance sobre la ruta (pintamos encima) -->
-              <path id="route-cover" class="route cover" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"/>
+              <path class="route cover" id="route-cover" d="M100,120 C180,150 220,220 260,260 S360,320 430,260 S510,200 570,240 S650,320 680,360 S720,420 780,420"></path>
 
               <!-- marcadores por pista -->
-              <circle id="mark-1" class="marker" cx="120" cy="126" r="8"/>
-              <circle id="mark-2" class="marker" cx="250" cy="250" r="8"/>
-              <circle id="mark-3" class="marker" cx="360" cy="300" r="8"/>
-              <circle id="mark-4" class="marker" cx="510" cy="210" r="8"/>
-              <circle id="mark-5" class="marker" cx="660" cy="330" r="8"/>
+              <circle class="marker" id="mark-1" cx="120" cy="126" r="8"></circle>
+              <circle class="marker" id="mark-2" cx="250" cy="250" r="8"></circle>
+              <circle class="marker" id="mark-3" cx="360" cy="300" r="8"></circle>
+              <circle class="marker" id="mark-4" cx="510" cy="210" r="8"></circle>
+              <circle class="marker" id="mark-5" cx="660" cy="330" r="8"></circle>
               <g id="mark-6">
-                <rect class="chest" x="762" y="405" width="28" height="18" rx="3"/>
-                <line class="xmark" x1="760" y1="400" x2="790" y2="430"/>
-                <line class="xmark" x1="790" y1="400" x2="760" y2="430"/>
+                <rect class="chest" x="762" y="405" width="28" height="18" rx="3"></rect>
+                <line class="xmark" x1="760" y1="400" x2="790" y2="430"></line>
+                <line class="xmark" x1="790" y1="400" x2="760" y2="430"></line>
               </g>
 
               <!-- barquito que avanza -->
               <g id="ship" transform="translate(100,120)">
-                <path class="ship" d="M0,0 l10,18 l-20,0 z" />
+                <path class="ship" d="M0,0 l10,18 l-20,0 z"></path>
               </g>
 
               <!-- rosa de los vientos decorativa -->
               <g transform="translate(840,60)">
-                <circle r="26" fill="#fff7d5" stroke="#d8c795"/>
-                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645"/>
-                <circle r="3" fill="#8c6b2f"/>
+                <circle r="26" fill="#fff7d5" stroke="#d8c795"></circle>
+                <path d="M0,-22 L5,0 L0,22 L-5,0 Z" fill="#caa645"></path>
+                <circle r="3" fill="#8c6b2f"></circle>
               </g>
             </svg>
           </div>
@@ -206,7 +206,7 @@
       <!-- JUEGO / PISTAS -->
       <div>
         <!-- Start Screen -->
-        <section id="screen-start" class="card">
+        <section class="card" id="screen-start">
           <div class="inner">
             <h2>¡Bienvenido/a!</h2>
             <p class="muted">Jugá esta búsqueda del tesoro resolviendo cada pista en orden. Cada respuesta correcta te revela una letra de la <strong>Clave del Tesoro</strong> y hace avanzar el barco en el mapa.</p>
@@ -214,18 +214,11 @@
             <div class="row">
               <div>
                 <label class="muted">Nombre del equipo / jugador</label>
-                <input id="player-name" type="text" placeholder="Ej: Los Aventureros" required minlength="2" />
+                <input id="player-name" type="text" placeholder="Ej: Los Aventureros" required minlength="2">
               </div>
               <div>
                 <label class="muted">Correo institucional (obligatorio)</label>
-                <input id="player-email"
-                       type="email"
-                       placeholder="usuario@est.una.ac.cr"
-                       inputmode="email"
-                       autocomplete="email"
-                       required
-                       pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$"
-                       title="Usá tu correo institucional que termine en @est.una.ac.cr" />
+                <input id="player-email" type="email" title="Usá tu correo institucional que termine en @est.una.ac.cr" placeholder="usuario@est.una.ac.cr" inputmode="email" autocomplete="email" required pattern="^[a-zA-Z0-9._%+-]+@est\.una\.ac\.cr$">
               </div>
             </div>
 
@@ -252,7 +245,7 @@
         <div class="space"></div>
 
         <!-- Game Screen -->
-        <section id="screen-game" class="card" hidden>
+        <section class="card" id="screen-game" hidden>
           <div class="inner">
             <div class="row" style="align-items:center">
               <div style="flex:1">
@@ -266,16 +259,16 @@
 
             <div class="space"></div>
             <h3 id="clue-title">Pista</h3>
-            <p id="clue-text" class="muted"></p>
-            <img id="clue-image" class="clue-img" alt="" hidden />
+            <p class="muted" id="clue-text"></p>
+            <img class="clue-img" id="clue-image" alt hidden>
 
             <div class="space"></div>
-            <form id="answer-form" class="row" autocomplete="off">
-              <input id="answer" type="text" placeholder="Escribí tu respuesta" aria-label="Respuesta"/>
+            <form class="row" id="answer-form" autocomplete="off">
+              <input id="answer" type="text" aria-label="Respuesta" placeholder="Escribí tu respuesta">
               <button id="submit">Comprobar</button>
               <button class="btn-ghost" id="btn-hint" type="button">Pedir pista</button>
             </form>
-            <p id="hint-area" class="muted" aria-live="polite"></p>
+            <p class="muted" id="hint-area" aria-live="polite"></p>
 
             <div class="space"></div>
             <div class="row">
@@ -289,10 +282,10 @@
         <div class="space"></div>
 
         <!-- Finish Screen -->
-        <section id="screen-finish" class="card" hidden>
+        <section class="card" id="screen-finish" hidden>
           <div class="inner center" style="flex-direction:column; text-align:center">
             <h2>🎉 ¡Tesoro encontrado!</h2>
-            <p id="finish-msg" class="muted"></p>
+            <p class="muted" id="finish-msg"></p>
             <div class="space"></div>
             <div class="row">
               <button id="play-again">Volver a jugar</button>
@@ -306,8 +299,8 @@
     </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
 
   <script>
 // ===============================
