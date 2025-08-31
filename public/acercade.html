@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Equipo de Desarrollo — Sistema</title>
+  <style>
+    /* =====================================================
+       Paleta y variables (tema tesoro: pergamino, oro y rojo)
+       ===================================================== */
+    :root{
+      --aqua: #caa645;        /* oro */
+      --celeste: #f4e7c5;     /* pergamino claro */
+      --blue: #c0392b;        /* rojo acento (tesoro) */
+      --ink: #2b2620;         /* tinta */
+      --muted: #7a6f60;       /* tinta tenue */
+      --bg: #f4e7c5;          /* fondo pergamino */
+      --card: #fff6d8;        /* tarjetas pergamino */
+      --shadow: 0 10px 25px rgba(43, 38, 32, .10);
+      --radius: 16px;         /* esquinas redondeadas */
+      --radius-sm: 12px;
+      --maxw: 1100px;
+      --accent: #c0392b;      /* rojo */
+      --accent-2:#8e2118;     /* rojo profundo */
+      --gold: #caa645;        /* dorado */
+    }
+
+    /* Reset mínimo + base tipográfica */
+    *,*::before,*::after{ box-sizing: border-box }
+    html, body{ height: 100% }
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.5;
+      color: var(--ink);
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(34,199,184,.18), transparent 60%),
+                  radial-gradient(900px 500px at -10% 10%, rgba(110,197,255,.18), transparent 55%),
+                  var(--bg);
+    }
+
+    /* Encabezado / Hero */
+    header.hero{
+      background: linear-gradient(135deg, var(--celeste), var(--aqua));
+      color: #0a1323;
+      padding: 56px 24px 84px;
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after{
+      /* ondita decorativa inferior */
+      content: "";
+      position: absolute; left: 0; right: 0; bottom: -1px; height: 60px;
+      background: radial-gradient(50% 60px at 50% 0, rgba(255,255,255,.9), transparent 70%);
+      opacity: .6;
+      pointer-events: none;
+    }
+    .hero__inner{ max-width: var(--maxw); margin: 0 auto; text-align: center; }
+    .hero__eyebrow{ font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+    .hero__title{ margin: 6px 0 10px; font-size: clamp(28px, 4vw, 40px); font-weight: 800; }
+    .hero__desc{ margin: 0 auto; max-width: 68ch; opacity: .95; }
+
+    /* Contenedor principal */
+    main{ max-width: var(--maxw); margin: 32px auto 56px; padding: 0 20px; }
+
+    /* Tarjetas del equipo */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      transition: transform .18s ease, box-shadow .18s ease;
+      border: 1px solid rgba(15,23,42,.06);
+    }
+    .card:focus-within,
+    .card:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px rgba(59, 130, 246, .18);
+      border-color: rgba(59,130,246,.25);
+    }
+
+    .top{
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    /* Avatar con iniciales (sin imágenes externas) */
+    .avatar{
+      width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center;
+      background: conic-gradient(from 210deg, var(--aqua), var(--celeste));
+      color: #051225; font-weight: 800; font-size: 22px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.9), 0 6px 16px rgba(15,23,42,.12);
+      user-select: none;
+    }
+
+    .name{ font-weight: 800; font-size: 18px; margin: 12px 0 0 }
+    .role{ margin: 2px 0 0; color: var(--muted); font-size: 14px }
+
+    .badges{ display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px }
+    .badge{
+      font-size: 12px; font-weight: 600; letter-spacing: .02em;
+      background: rgba(202,166,69,.18);
+      color: #6b4e00;
+      padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(202,166,69,.35);
+    }
+
+    .bio{ margin: 0 0 14px; color: var(--ink); opacity: .9; }
+
+    .links{ display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .btn{
+      --btn-bg: var(--accent);
+      --btn-bg-hover: var(--accent-2);
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      color: #ffffff; background: var(--btn-bg);
+      padding: 10px 14px; border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(11, 99, 255, .22);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    .btn:hover, .btn:focus-visible{ background: var(--btn-bg-hover); outline: 3px solid rgba(59,130,246,.35); outline-offset: 2px }
+
+    .iconlink{
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 10px; border-radius: 10px; text-decoration: none;
+      color: var(--blue); background: rgba(192,57,43,.10);
+      border: 1px solid rgba(192,57,43,.25);
+      font-weight: 700; font-size: 14px;
+    }
+    .iconlink:hover, .iconlink:focus-visible{ background: rgba(192,57,43,.16); outline: 3px solid rgba(192,57,43,.35); outline-offset: 2px }
+    .iconlink:hover, .iconlink:focus-visible{ background: rgba(59,130,246,.14); outline: 3px solid rgba(59,130,246,.35); outline-offset: 2px }
+
+    /* Accesibilidad: focus visible para elementos interactivos */
+    a:focus-visible{ outline: 3px solid rgba(59,130,246,.55); outline-offset: 2px }
+
+    /* Pie de página */
+    footer{
+      margin: 36px 0 46px; text-align: center; color: var(--muted);
+    }
+
+    /* Soporte de modo oscuro del sistema */
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0e0c09; --card:#15120e; --ink:#efe9dd; --muted:#c9c1b2 }
+      body{ background: radial-gradient(1200px 600px at 80% -10%, rgba(202,166,69,.10), transparent 60%),
+                         radial-gradient(900px 500px at -10% 10%, rgba(192,57,43,.10), transparent 55%),
+                         var(--bg); }
+      .badge{ color:#f4e7c5; border-color:rgba(202,166,69,.35); background: rgba(202,166,69,.22) }
+      .btn{ box-shadow: 0 6px 16px rgba(192,57,43,.35) }
+      .card{ border-color: rgba(255,255,255,.06) }
+    }
+    body{ background: radial-gradient(1200px 600px at 80% -10%, rgba(34,199,184,.12), transparent 60%),
+                       radial-gradient(900px 500px at -10% 10%, rgba(110,197,255,.12), transparent 55%),
+                       var(--bg); }
+    .badge{ color:#bcd4ff; border-color:rgba(59,130,246,.35) }
+    .btn{ box-shadow: 0 6px 16px rgba(11,99,255,.35) }
+    .card{ border-color: rgba(255,255,255,.06) }
+
+
+
+
+
+    /* Botón ghost – tema Tesoro */
+.btn-ghost{
+  /* Paleta (con valores por defecto por si no tenés variables definidas) */
+  --accent: var(--accent, #c0392b);     /* rojo */
+  --accent-2: var(--accent-2, #8e2118); /* rojo profundo */
+  --gold: var(--gold, #caa645);         /* dorado */
+  --parchment: var(--bg, #f4e7c5);      /* pergamino */
+  --ink: var(--ink, #2b2620);           /* tinta */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+
+  padding: .72rem 1.1rem;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+
+  background:
+    linear-gradient(0deg, rgba(202,166,69,.10), rgba(202,166,69,.10)); /* velo dorado */
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: .2px;
+
+  box-shadow:
+    0 3px 0 var(--accent-2),
+    0 10px 18px rgba(0,0,0,.08);
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+  will-change: transform;
+}
+
+/* Hover / Focus */
+.btn-ghost:hover,
+.btn-ghost:focus-visible{
+  border-color: var(--gold);
+  background:
+    linear-gradient(0deg, rgba(202,166,69,.18), rgba(202,166,69,.18));
+  box-shadow:
+    0 2px 0 var(--accent-2),
+    0 14px 24px rgba(0,0,0,.12);
+  outline: 3px solid rgba(202,166,69,.35);
+  outline-offset: 2px;
+}
+
+/* Activo (click) */
+.btn-ghost:active{
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 var(--accent-2),
+    0 8px 16px rgba(0,0,0,.10);
+}
+
+/* Estado deshabilitado (si algún día lo usás como <button disabled>) */
+.btn-ghost[aria-disabled="true"],
+.btn-ghost[disabled]{
+  opacity: .6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Opción: que ocupe todo el ancho en móvil */
+@media (max-width: 480px){
+  .btn-ghost{
+    width: 100%;
+  }
+}
+
+/* Respeta usuarios con “reducir movimientos” */
+@media (prefers-reduced-motion: reduce){
+  .btn-ghost{
+    transition: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header class="hero" role="banner">
+    <div class="hero__inner" aria-label="Encabezado de la página">
+      <p class="hero__eyebrow">Nuestro equipo</p>
+      <h1 class="hero__title">Conocé a las personas que hicieron este sistema</h1>    </div>
+  </header>
+
+  <main id="contenido" role="main" aria-label="Listado del equipo">
+    <section class="grid" aria-label="Tarjetas del equipo (solo nombres)">
+      <article class="card">
+        <div class="top">
+          <div class="avatar" aria-hidden="true">JA</div>
+          <h3 class="name">Joseph Álvarez Ruiz</h3>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="top">
+          <div class="avatar" aria-hidden="true">DS</div>
+          <h3 class="name">Darwin Silva Gadea</h3>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="top">
+          <div class="avatar" aria-hidden="true">AQ</div>
+          <h3 class="name">Adrián Quintanilla Chavarría</h3>
+        </div>
+      </article>
+    </section>
+  </main>
+  <footer aria-label="Créditos y versión">
+     <div>
+            <a href="index.html" class="btn-ghost">Pantalla de inicio</a>
+            <br>
+            <br>
+            <a class="btn-ghost">Borrar Datos</a>
+    </div>
+  </footer>
+</body>
+</html>
