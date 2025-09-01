@@ -419,6 +419,10 @@
       opacity: .6
     }
 
+    #btn-skip {
+      display: none;
+    }
+
     .route {
       fill: none;
       stroke: #b1120a;
@@ -720,13 +724,13 @@
               <input id="answer" type="text" aria-label="Respuesta" placeholder="Escribí tu respuesta">
               <button id="submit">Comprobar</button>
               <button class="btn-ghost" id="btn-hint" type="button">Pedir pista</button>
+              <button class="btn-ghost" id="btn-skip">Saltar (uso docente)</button>
             </form>
             <p class="muted" id="hint-area" aria-live="polite"></p>
 
             <div class="space"></div>
             <div class="row">
               <button class="btn-ghost" id="btn-reset">Reiniciar</button>
-              <button class="btn-ghost" id="btn-skip">Saltar (uso docente)</button>
             </div>
           </div>
         </section>
@@ -740,7 +744,6 @@
             <p class="muted" id="finish-msg"></p>
             <div class="space"></div>
             <div class="row">
-              <button id="play-again">Volver a jugar</button>
               <button class="btn primary" id="download-certificate" type="button">
                 Descargar certificado
               </button>
@@ -770,7 +773,7 @@
       clues: [
         {
           id: 1,
-          title: "Pista 1 – Sombrero del sabanero",
+          title: "Pregunta 1",
           text: "Soy de paja o tela, me ves en las montaderas y bajo el sol guanacasteco. ¿Qué soy?",
           answer: ["chonete", "sombrero", "sombrero chonete"],
           hint: "Sombrero típico del sabanero.",
@@ -780,7 +783,7 @@
         },
         {
           id: 2,
-          title: "Pista 2 – Música de la pampa",
+          title: "Pregunta 2",
           text: "Mis tablillas cantan con bolillos; soy el sonido de las fiestas guanacastecas. ¿Qué instrumento soy?",
           answer: ["marimba"],
           hint: "Instrumento de madera que suena con mazas.",
@@ -790,7 +793,7 @@
         },
         {
           id: 3,
-          title: "Pista 3 – Enlazar reses",
+          title: "Pregunta 3",
           text: "Soy de fibra o cuero y formo el lazo del sabanero. ¿Qué objeto soy?",
           answer: ["soga", "lazo", "reata"],
           hint: "Se usa para enlazar.",
@@ -800,7 +803,7 @@
         },
         {
           id: 4,
-          title: "Pista 4 – Montar con firmeza",
+          title: "Pregunta 4 ",
           text: "Voy sobre el lomo del caballo para cabalgar cómodo. ¿Qué soy?",
           answer: ["montura", "silla de montar", "silla"],
           hint: "Se asegura con la cincha.",
@@ -810,7 +813,7 @@
         },
         {
           id: 5,
-          title: "Pista 5 – Verso corto y picaresco",
+          title: "Pregunta 5",
           text: "Se dice en una sola tirada; rima breve que alegra la fiesta. ¿Cómo me llamo?",
           answer: ["bomba", "bomba guanacasteca"],
           hint: "Muy típica en las fiestas de la Anexión.",
@@ -820,7 +823,7 @@
         },
         {
           id: 6,
-          title: "Pista final – Código del Tesoro",
+          title: "Pregunta 6",
           text: "Con las letras que juntaste formás la palabra secreta (5 letras). Escribila aquí para abrir el cofre.",
           isFinal: true,
           image: ""
@@ -1175,9 +1178,10 @@
         let y = 230;
         const pre = [
           'La Organización de la Búsqueda del Tesoro – Guanacaste',
-          'otorga el presente reconocimiento a'
+          'otorga el presente reconocimiento a',
+           ''
         ];
-        pre.forEach(line => { ctx.fillText(line, c.width / 2, y); y += 38; });
+        pre.forEach(line => { ctx.fillText(line, c.width / 2, y); y += 36; });
 
         // Nombre grande
         ctx.font = 'bold 64px system-ui';
